@@ -1,0 +1,64 @@
+<div id="free-shipping" style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+    <img src="{{ 'correios.svg' | asset_url  }}" alt="Correios">
+    <p>
+        <span class="ship-name">{{ 'product.general.free_shipping' | t }}:</span>
+        <span class="ship-address"></span>
+        <span class="ship-interval"></span>
+    </p>
+</div>
+
+<script defer="defer">
+    function somaDiasUteis(data, dias) {
+        if(isNaN(dias) || !(data instanceof Date)) {
+            return;
+        }
+
+        var dia = data.getDay();
+        var diasAdd = parseInt(dias);
+
+        if (dia === 0)
+            diasAdd++;
+
+        if (dia + diasAdd >= 6) {
+            var diasDeTrabalhoRestante = diasAdd - (5 - dia);
+            diasAdd += 2;
+            if (diasDeTrabalhoRestante > 5) {
+                diasAdd += 2 * Math.floor(diasDeTrabalhoRestante / 5);
+                if (diasDeTrabalhoRestante % 5 === 0)
+                    diasAdd -= 2;
+            }
+        }
+
+        data.setDate(data.getDate() + diasAdd);
+        return data;
+    }
+
+    function estimar() {
+        var meses = [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ];
+
+        var prazoMin = somaDiasUteis(new Date(), {{ block.settings.first_date_free_ship }});
+        var prazoMax = somaDiasUteis(new Date(), {{ block.settings.interval_date_free_ship }});
+
+        {%- comment -%}
+          Antes: $.getJSON("https://wtfismyip.com/json") para geolocalizar o visitante.
+          Trocado pelo endereco que o proprio Shopify ja resolve no servidor
+          (localization.country), sem enviar o IP do cliente para servico de terceiro
+          e sem depender de um endpoint gratuito ficar de pe. Sem esse fetch, o bloco
+          tambem para de sumir quando a chamada externa falha.
+        {%- endcomment -%}
+        (function(local) {
+            var regiao = local;
+
+            $(".ship-address").html(`{{ 'product.general.for' | t }}` + " " + regiao + " " + `{{ 'product.general.and_region' | t }}` );
+            $(".ship-interval").html(`{{ 'product.general.receive_between' | t }}` + ": " + "<span style='font-weight: 500;'>"+prazoMin.getDate() + " de " + meses[prazoMin.getMonth()] + " e " + prazoMax.getDate() + " de " + meses[prazoMax.getMonth()]);
+
+            $("#free-shipping").css("display", "flex");
+        })({{ localization.country.name | default: shop.address.province | default: 'todo o Brasil' | json }});
+    }
+
+    document.addEventListener('shopify:section:load', function (event) {
+        estimar();
+    });
+    estimar();
+</script>

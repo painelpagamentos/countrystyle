@@ -1,0 +1,179 @@
+<div class="container container--narrow">
+  <header class="page__header page__header--stack page__header--centered">
+    <h1 class="page__title heading h1">{{ page.title | default: 'Fale com a gente' }}</h1>
+
+    {%- if page.content != blank -%}
+      <div class="page__description rte">
+        {{ page.content }}
+      </div>
+    {%- endif -%}
+  </header>
+</div>
+
+<div class="container container--medium">
+  <div class="layout">
+    <div class="layout__section">
+      {%- form 'contact', class: 'form' -%}
+        {%- if section.settings.show_store_info -%}
+          <div class="form__header">
+            <h2 class="heading h3">{{ section.settings.form_heading | escape }}</h2>
+          </div>
+        {%- endif -%}
+
+        {%- if form.posted_successfully? -%}
+          <p class="alert alert--success">{{ 'contact.form.successfully_sent' | t }}</p>
+        {%- endif -%}
+
+        {%- if form.errors -%}
+          <div class="alert alert--error" id="contact-form-error">
+            <ul class="alert__error-list" role="list">
+              {%- for field in form.errors -%}
+                {%- if field == 'form' -%}
+                  <li class="alert__error-item">{{ form.errors.messages[field] }}</li>
+                {%- else -%}
+                  <li class="alert__error-item">{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          Campos de nome, e-mail e mensagem foram restaurados: o tema original os havia
+          removido e trocado o botao por um redirect para atlasexpress.site/rastrear,
+          site de terceiro fora do controle da loja.
+        {%- endcomment -%}
+        <div class="form__input-wrapper form__input-wrapper--labelled">
+          <input type="text" id="contact-name" class="form__field form__field--text {% if form.name != blank %}is-filled{% endif %}" name="contact[name]" value="{{ form.name | escape }}" required>
+          <label for="contact-name" class="form__floating-label">{{ 'contact.form.name' | t }}</label>
+        </div>
+
+        <div class="form__input-wrapper form__input-wrapper--labelled">
+          <input type="email" id="contact-email" class="form__field form__field--text {% if form.email != blank %}is-filled{% endif %}" name="contact[email]" value="{{ form.email | escape }}" required>
+          <label for="contact-email" class="form__floating-label">{{ 'contact.form.email' | t }}</label>
+        </div>
+
+        <div class="form__input-wrapper form__input-wrapper--labelled">
+          <textarea id="contact-message" class="form__field form__field--textarea {% if form.body != blank %}is-filled{% endif %}" name="contact[body]" rows="5" required>{{ form.body }}</textarea>
+          <label for="contact-message" class="form__floating-label">{{ 'contact.form.message' | t }}</label>
+        </div>
+
+        <button type="submit" class="form__submit {% unless section.settings.show_store_info %}form__submit--centered{% endunless %} button button--primary button--min-width">{{ 'contact.form.submit' | t }}</button>
+      {%- endform -%}
+    </div>
+
+    {%- if section.settings.show_store_info -%}
+      <div class="layout__section layout__section--large-secondary">
+        <div class="contact__store-info">
+          {%- if section.settings.store_heading != blank -%}
+            <h2 class="contact__store-heading heading h3">{{ section.settings.store_heading | escape }}</h2>
+          {%- endif -%}
+
+          {%- if section.settings.store_image -%}
+            <div class="contact__store-image">
+              <div class="aspect-ratio" style="padding-bottom: {{ 100.0 | divided_by: section.settings.store_image.aspect_ratio }}%">
+                <img src="{{ section.settings.store_image | img_url: '700x' }}" alt="{{ section.settings.store_image.alt | escape }}">
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.store_info != blank -%}
+            <div class="contact__store-text rte">
+              {{ section.settings.store_info }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Heading",
+      "default": "Rastrear Pedido"
+    },
+    {
+      "type": "header",
+      "content": "Store info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_store_info",
+      "label": "Show store info",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "store_heading",
+      "label": "Heading",
+      "default": "Find us"
+    },
+    {
+      "type": "image_picker",
+      "id": "store_image",
+      "label": "Store image",
+      "info": "700 x 500px .jpg recommended"
+    },
+    {
+      "type": "richtext",
+      "id": "store_info",
+      "label": "Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Name",
+          "default": "Custom field"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_long_text",
+          "label": "Use long text",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "is_required",
+          "label": "Field is required",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "Dropdown",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Name",
+          "default": "Custom field"
+        },
+        {
+          "type": "text",
+          "id": "values",
+          "label": "Values",
+          "info": "Separate each value by a comma.",
+          "default": "value 1, value 2, value 3"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

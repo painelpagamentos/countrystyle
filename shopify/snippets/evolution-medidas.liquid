@@ -1,0 +1,68 @@
+<a class="trigger-pop-up" href="#">
+    <svg height="19px" viewBox="0 0 576 512" fill="#959595"><path d="M544 128h-48v88c0 4.42-3.58 8-8 8h-16c-4.42 0-8-3.58-8-8v-88h-64v88c0 4.42-3.58 8-8 8h-16c-4.42 0-8-3.58-8-8v-88h-64v88c0 4.42-3.58 8-8 8h-16c-4.42 0-8-3.58-8-8v-88h-64v88c0 4.42-3.58 8-8 8h-16c-4.42 0-8-3.58-8-8v-88h-64v88c0 4.42-3.58 8-8 8H88c-4.42 0-8-3.58-8-8v-88H32c-17.67 0-32 14.33-32 32v192c0 17.67 14.33 32 32 32h512c17.67 0 32-14.33 32-32V160c0-17.67-14.33-32-32-32z"/></svg>
+    Tabela de Medidas
+</a>
+
+<div class="pop-up-modal">
+    <div class="pop-up-content">
+        <div class="pop-up-product hidden-phone">
+            <img class="pop-up-product-image" src="{{ product.featured_image.src | img_url: '1600x' }}" alt="{{ product.featured_image.alt }}">
+        </div>
+        <div class="pop-up-medida">
+            {% if product.metafields.ultimate.medidas_desktop %}
+                <img class="medida-desktop hidden-phone" src="{{ product.metafields.ultimate.medidas_desktop | img_url: '1600x' }}">{% endif %}
+
+            {% if product.metafields.ultimate.medidas_mobile %}
+                <img class="medida-mobile hidden-desk" style="height: auto;" src="{{ product.metafields.ultimate.medidas_mobile | img_url: '1600x' }}">{% endif %}
+        </div>
+        <footer class="pop-up-botoes">
+            <span class="pop-up-close">Fechar</span>
+        </footer>
+    </div>
+</div>
+
+<script>
+    const modal = document.querySelector(".pop-up-modal");
+    const trigger = document.querySelector(".trigger-pop-up");
+    const content = document.querySelector(".pop-up-content");
+    const close = document.querySelector(".pop-up-close");
+
+    function toggleModal() {
+        if (window.matchMedia("(min-width: 1280px)").matches) {
+            if (!modal.classList.contains("show-pop-up")) {
+                $('.product-block-list__item--info > .card--sticky').css('position', 'inherit');
+            } else {
+                $('.product-block-list__item--info > .card--sticky').css('position', 'sticky');
+            }
+        }
+
+        modal.classList.toggle("show-pop-up");
+    }
+
+    document.addEventListener("click", function(event) {
+        if ((modal.contains(event.target) && !content.contains(event.target)) || trigger.contains(event.target) || close.contains(event.target)) {
+            toggleModal();
+        }
+    });
+</script>
+
+<style>
+    @media screen and (min-width: 1280px) {
+        .product-gallery__thumbnail-list {
+            position: inherit;
+        }
+
+        #shopify-section-header,
+        .search-bar,
+        .search-bar__top,
+        .header__cart-count {
+            position: inherit;
+            z-index: auto;
+        }
+
+        .product-block-list__item--description .card,
+        .product-block-list__item--description .card__section {
+            position: inherit;
+        }
+    }
+</style>

@@ -1,0 +1,247 @@
+<!doctype html>
+<html class="no-js" lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="{{ settings.timer_bar_color }}">
+
+    {%- comment -%}
+      Tracking. A UTMify inicializa o pixel Meta 1515257673167685.
+      Substitui os dois loaders ofuscados (base64+XOR) do tema original.
+      O stub de fbq que descartava InitiateCheckout/AddPaymentInfo/Purchase foi removido.
+    {%- endcomment -%}
+    <link rel="preconnect" href="https://cdn.utmify.com.br">
+    <link rel="preconnect" href="https://connect.facebook.net">
+
+    {%- comment -%}
+      Stub de fila do Meta, padrao oficial e SEM filtro. Duas razoes para ele existir:
+      1. o tema original definia window.fbq de forma sincrona no topo do head; sem nada aqui,
+         um app que chame fbq() durante o parse estoura ReferenceError em vez de enfileirar;
+      2. o stub original trazia 3 ifs que DESCARTAVAM Purchase, InitiateCheckout e
+         AddPaymentInfo quando faltava order_id. Como a UTMify nao envia order_id, o fundo
+         de funil inteiro morria em silencio. Aqui a fila e neutra: nao filtra nada.
+      O init do pixel fica por conta da UTMify (pixel Meta 1515257673167685); nao chamamos
+      init aqui para nao duplicar PageView.
+    {%- endcomment -%}
+    <script>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    </script>
+
+    <script>window.pixelId = "6a68c53e8f4005f76c905804";</script>
+    <script src="https://cdn.utmify.com.br/scripts/pixel/pixel.js" async defer></script>
+    <script
+      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+      data-utmify-prevent-xcod-sck
+      data-utmify-prevent-subids
+      async defer></script>
+
+    {%- capture seo_page_title -%}
+      {%- if request.page_type == 'search' and search.terms != blank -%}
+        {{ search.terms | split: ' AND ' | last | split: 'product_type:' | last }} - {{ shop.name }}
+      {%- else -%}
+        {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+      {%- endif -%}
+    {%- endcapture -%}
+
+    <title>{{- seo_page_title -}}</title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon -%}
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '96x96' }}" type="image/png">
+    {%- endif -%}
+
+    {% render 'social-meta-tags' %}
+
+    {%- comment -%}Few prefech to increase performance on commonly used third-parties{%- endcomment -%}
+    <link rel="preload" as="style" href="{{ 'theme.css' | asset_url }}">
+    <link rel="preload" as="style" href="{{ 'custom.css' | asset_url }}">
+    <link rel="preload" as="script" href="{{ 'theme.min.js' | asset_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com">
+    <link rel="preconnect" href="https://fonts.shopifycdn.com">
+    {% render 'css-variables' %}
+    {{ content_for_header }}
+    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'custom.css' | asset_url }}">
+    {% render 'microdata-schema' %}
+    {%- comment -%}
+      Removido um IntersectionObserver que varria TODAS as <img> de toda pagina procurando
+      a classe 'lazy'. O tema usa 'lazyload' (lazysizes, ja no theme.min.js), e
+      classList.contains('lazy') nao casa com 'lazyload' - o observer nunca fazia nada.
+    {%- endcomment -%}
+    <script>
+      // This allows to expose several variables to the global scope, to be used in scripts
+      window.theme = {
+        pageType: {{ request.page_type | json }},
+        cartCount: {{ cart.item_count | json }},
+        moneyFormat: {{ shop.money_format | json }},
+        moneyWithCurrencyFormat: {{ shop.money_with_currency_format | json }},
+        showDiscount: {% if settings.show_discount %}true{% else %}false{% endif %},
+        discountMode: {{ settings.discount_mode | json }},
+        searchMode: {{ settings.search_mode | json }},
+        cartType: {{ settings.cart_type | json }}
+      };
+
+      window.routes = {
+        rootUrl: {{ routes.root_url | json }},
+        rootUrlWithoutSlash: {% if routes.root_url == '/' %}''{% else %}{{ routes.root_url | json }}{% endif %},
+        cartUrl: {{ routes.cart_url | json }},
+        cartAddUrl: {{ routes.cart_add_url | json }},
+        cartChangeUrl: {{ routes.cart_change_url | json }},
+        searchUrl: {{ routes.search_url | json }},
+        productRecommendationsUrl: {{ routes.product_recommendations_url | json }}
+      };
+
+      window.languages = {
+        productRegularPrice: {{ 'product.general.regular_price' | t | json }},
+        productSalePrice: {{ 'product.general.sale_price' | t | json }},
+        collectionOnSaleLabel: {{ 'collection.product.discount_html' | t | json }},
+        productFormUnavailable: {{ 'product.form.unavailable' | t | json }},
+        productFormAddToCart: {% if product.template_suffix == 'pre-order' %}{{ 'product.form.pre_order' | t | json }}{% else %}{{ 'product.form.add_to_cart' | t | json }}{% endif %},
+        productFormSoldOut: {{ 'product.form.sold_out' | t | json }},
+        productAdded: {{ 'product.form.added' | t | json }},
+        productAddedShort: {{ 'product.form.added_short' | t | json }},
+        shippingEstimatorNoResults: {{ 'cart.shipping_estimator.no_results_title' | t | json }},
+        shippingEstimatorOneResult: {{ 'cart.shipping_estimator.one_result_title' | t | json }},
+        shippingEstimatorMultipleResults: {{ 'cart.shipping_estimator.multiple_results_title' | t | json }},
+        shippingEstimatorErrors: {{ 'cart.shipping_estimator.errors' | t | json }}
+      };
+
+      window.lazySizesConfig = {
+        loadHidden: false,
+        hFac: 0.8,
+        expFactor: 3,
+        customMedia: {
+          '--phone': '(max-width: 640px)',
+          '--tablet': '(min-width: 641px) and (max-width: 1023px)',
+          '--lap': '(min-width: 1024px)'
+        }
+      };
+
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    </script>
+
+    <script src="{{ 'theme.min.js' | asset_url }}" defer></script>
+
+    {%- comment -%}
+      Font Awesome removido: era o CSS inteiro (14KB + webfont ~90KB) para 2 icones,
+      e a familia pedida no custom.css ("Font Awesome 5 Free") nem existia na v6,
+      entao o icone do botao de compra renderizava como quadradinho.
+      Os 2 icones viraram SVG inline no custom.css.
+    {%- endcomment -%}
+
+    {%- comment -%}
+      jQuery mantido sincrono de proposito: 13 arquivos .liquid e o custom.js usam $()
+      em scripts inline que rodam durante o parse. Com defer, todos quebram.
+      Trocado o CDN code.jquery.com (3.6.0) pelo asset local jquery.js (3.7.1, ja existia
+      no tema sem uso) para tirar DNS+TLS de origem externa do caminho critico.
+    {%- endcomment -%}
+    <script src="{{ 'jquery.js' | asset_url }}"></script>
+
+    <script src="{{ 'jquery.mask.min.js' | asset_url }}"></script>{%- comment -%} era cdnjs: origem externa a menos no caminho critico {%- endcomment -%}
+    <script src="{{ 'custom.js' | asset_url }}" defer></script>
+
+    {%- if request.page_type != 'cart' -%}
+        <script>
+            (function () {
+              window.onpageshow = function() {
+                // We force re-freshing the cart content onpageshow, as most browsers will serve a cache copy when hitting the
+                // back button, which cause staled data
+                document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', {
+                  bubbles: true,
+                  detail: {scrollToTop: false}
+                }));
+              };
+
+            })();
+      </script>
+    {%- endif -%}
+    {% render 'mrk-style' %}
+  </head>
+
+  <body class="Evolution--v2.2 {% if settings.animation_image_zoom %}features--animate-zoom{% endif%} template-{{ request.page_type | handle }} {% if request.page_type contains '/' %}template-{{ request.page_type | split: '/' | last | handle }}{% endif %}"
+    data-instant-intensity="viewport">
+
+    <a href="#main" class="visually-hidden skip-to-content">{{ 'general.accessibility.skip_to_content' | t }}</a>
+    <span class="loading-bar"></span>
+
+    {% section 'announcement-bar' %}
+
+    {% section 'ad-banner' %}
+
+    {%- unless request.page_type == 'cart' -%}
+      {%- comment -%}As required by Shopify rules, popup must be removed on cart page to remove distraction{%- endcomment -%}
+      {% section 'popups' %}
+    {%- endunless -%}
+
+    {% section 'header' %}
+
+    <main id="main" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'info-bar' %}
+
+    {% section 'newsletter-bar' %}
+    {% section 'footer' %}
+    {% section 'support-floating' %}
+
+    <ul hidden>
+      <li id="a11y-new-window-message">{{ 'general.accessibility.new_window' | t }}</li>
+    </ul>
+
+    {%- comment -%}
+      Bloqueio de F12/botao direito removido: desativava tambem onselectstart, entao o
+      cliente nao conseguia copiar cupom, e-mail do SAC nem codigo de rastreio, e no
+      celular atrapalhava o toque longo. Nao protegia nada (o HTML e publico).
+      A opcao block_f12_right_button continua no schema; agora nao tem efeito.
+    {%- endcomment -%}
+
+    <style>
+      {% if settings.enable_line_below_heading %}
+        .section__title::after {
+          content: '';
+          display: flex;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: var(--header-accent-color);
+          height: 7px;
+          width: 120px;
+          margin-top: -5px;
+          border-radius: 20px;
+        }
+      {% endif %}
+    </style>
+    {%- comment -%}
+      Removidos 4 @import do Google Fonts (Rubik, Roboto, Montserrat, Poppins) que
+      ficavam no fim do body: nenhuma era usada pelo tema (a tipografia vem do
+      font_picker do Shopify) e cada @import serializava mais uma requisicao.
+    {%- endcomment -%}
+
+  
+
+
+
+<!-- Blocos 'vega utm script' e 'vega cart script' removidos.
+     Eram residuo do tema clonado da loja Olivia Delicata: reescreviam o action do
+     formulario do carrinho para https://pay.oliviadelicata.shop (dominio NAO registrado,
+     livre para qualquer um comprar) e gravavam cookie de UTM em dominio de terceiro.
+     O checkout e responsabilidade exclusiva do snippet Corvex abaixo. -->
+<!-- Código essencial do Corvex Checkout. Não remova. -->
+{% capture corvex_snippet %}{% render 'Corvex' %}{% endcapture %}
+{% if corvex_snippet contains 'Liquid error' %}
+  {%- comment -%} Evita erro de renderização {%- endcomment -%}
+{% else %}
+  {% render 'Corvex' %}
+{% endif %}
+<!-- Código essencial do Horizon Checkout. Não remova. -->
+</body>
+</html>
