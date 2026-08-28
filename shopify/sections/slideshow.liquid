@@ -10,10 +10,32 @@
     }
 {%- endcapture -%}
 
+{%- assign has_slideshow_images = false -%}
+{%- for block in section.blocks -%}
+  {%- if block.settings.image != blank -%}
+    {%- assign has_slideshow_images = true -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
 <section data-section-id="{{ section.id }}" data-section-type="slideshow" data-section-settings='{{ section_settings }}'>
     <div {% unless section.settings.edge_to_edge %}class="container container--flush"{% endunless %}>
         <div class="slideshow slideshow--{{ section.settings.section_size | replace: '_', '-' }} {% if section.settings.edge_to_edge %}slideshow--edge2edge{% endif %}"
-             style="color: {{ section.blocks.first.settings.text_color }}">
+             style="color: {{ section.blocks.first.settings.text_color | default: '#ffffff' }}">
+            {%- unless has_slideshow_images -%}
+              {%- assign fallback_slides = "https://yunabella.myshopify.com/cdn/shop/files/yuna2_1200x.png?v=1787586512|/collections/exclusivos,https://yunabella.myshopify.com/cdn/shop/files/yuna1_7d8657a9-dedd-4da8-81ad-72307ea5cd38_1200x.png?v=1787586577|/collections/exclusivos" | split: "," -%}
+              {%- for fallback_slide in fallback_slides -%}
+                {%- assign slide_parts = fallback_slide | split: "|" -%}
+                <div class="slideshow__slide">
+                  <a href="{{ slide_parts[1] }}" class="slideshow__slide-inner slideshow__slide-inner--middle-center">
+                    <div class="aspect-ratio" style="padding-bottom: 33.33%">
+                      <img class="slideshow__image" src="{{ slide_parts[0] }}" alt="{{ shop.name }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" {% if forloop.first %}fetchpriority="high"{% endif %}>
+                    </div>
+                  </a>
+                </div>
+              {%- endfor -%}
+            {%- endunless -%}
+            {%- if has_slideshow_images -%}
             {%- for block in section.blocks -%}
                 {%- if block.settings.mobile_image -%}
                     {%- capture mobile_size -%}{{ block.settings.mobile_image.width | at_most: 600 }}x{{ block.settings.mobile_image.height | at_most: 800 }}{%- endcapture -%}
@@ -166,6 +188,7 @@
                     </div>
                 {%- endif -%}
             {%- endfor -%}
+            {%- endif -%}
         </div>
     </div>
 </section>

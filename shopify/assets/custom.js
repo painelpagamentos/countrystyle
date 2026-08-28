@@ -111,8 +111,8 @@ $(".product-form").each(function () {
                         productTemplateElement.dispatchEvent(new CustomEvent("product:added", {
                             bubbles: true,
                             detail: {
-                                variant: arraydeprodutos[1],
-                                quantity: 1
+                                variant: arraydeprodutos[0],
+                                quantity: arraydeprodutos[0].quantity || 1
                             }
                         }));
                     }
@@ -242,3 +242,168 @@ $(document).ready(function() {
         });
     }
 });
+
+(function () {
+    var catalog = null;
+    var catalogLoading = null;
+
+    function loadCatalog() {
+        if (catalog) {
+            return Promise.resolve(catalog);
+        }
+
+        if (!catalogLoading) {
+            var catalogUrl = (window.routes && window.routes.productsCatalogUrl) || '/assets/products-catalog.json';
+
+            catalogLoading = fetch(catalogUrl, { credentials: 'same-origin' })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('catalog unavailable');
+                    }
+
+                    return response.json();
+                })
+                .then(function (data) {
+                    catalog = Array.isArray(data) ? data : [];
+                    return catalog;
+                })
+                .catch(function () {
+                    catalog = [];
+                    return catalog;
+                });
+        }
+
+        return catalogLoading;
+    }
+
+    function formatMoney(value) {
+        var amount = Number(value);
+
+        if (isNaN(amount)) {
+            return '';
+        }
+
+        return 'R$ ' + amount.toFixed(2).replace('.', ',');
+    }
+
+    function highlightTerm(text, term) {
+        if (!term) {
+            return text;
+        }
+
+        var regex = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig');
+        return text.replace(regex, '<strong>$1</strong>');
+    }
+
+    function searchCatalog(query) {
+        if (!catalog || !query) {
+            return [];
+        }
+
+        var normalized = query.toLowerCase().trim();
+
+        return catalog.filter(function (product) {
+            return product.title.toLowerCase().indexOf(normalized) !== -1
+                || product.handle.indexOf(normalized) !== -1;
+        }).slice(0, 3);
+    }
+
+    function renderCatalogResults(results, query) {
+        if (!results.length) {
+            return '<div class="search-bar__empty-state"><p class="heading h4">Nenhum produto encontrado</p></div>';
+        }
+
+        var html = '<p class="search-bar__result-category">Produtos</p><div class="search-bar__result-products">';
+
+        results.forEach(function (product) {
+            html += '<a href="' + product.url + '" class="search-bar__result-item">'
+                + '<div class="search-bar__image-container"><div class="aspect-ratio aspect-ratio--square">'
+                + '<img src="' + product.image + '" alt="' + product.title.replace(/"/g, '&quot;') + '">'
+                + '</div></div><div class="search-bar__item-info">'
+                + '<p class="search-bar__item-title">' + highlightTerm(product.title, query) + '</p>'
+                + '<span class="search-bar__item-price">' + formatMoney(product.price) + '</span>'
+                + '</div></a>';
+        });
+
+        html += '</div>';
+
+        if (catalog.filter(function (product) {
+            var normalized = query.toLowerCase().trim();
+            return product.title.toLowerCase().indexOf(normalized) !== -1 || product.handle.indexOf(normalized) !== -1;
+        }).length > 3) {
+            html += '<button class="search-bar__view-all" type="submit">Ver todos os resultados</button>';
+        }
+
+        return html;
+    }
+
+    function maybeFillSearchFromCatalog(input) {
+        var searchBar = input.closest('.search-bar');
+
+        if (!searchBar) {
+            return;
+        }
+
+        var resultsInner = searchBar.querySelector('.search-bar__results-inner');
+        var query = input.value.trim();
+
+        if (!resultsInner || query.length < 2) {
+            return;
+        }
+
+        loadCatalog().then(function () {
+            var shopifyResults = resultsInner.querySelector('.search-bar__result-products');
+            var emptyState = resultsInner.querySelector('.search-bar__empty-state');
+
+            if (shopifyResults && shopifyResults.children.length) {
+                return;
+            }
+
+            if (!emptyState && resultsInner.textContent.trim() !== '') {
+                return;
+            }
+
+            var matches = searchCatalog(query);
+
+            if (!matches.length) {
+                return;
+            }
+
+            searchBar.classList.remove('is-loading');
+            resultsInner.innerHTML = renderCatalogResults(matches, query);
+            searchBar.querySelector('.search-bar__results').setAttribute('aria-hidden', 'false');
+        });
+    }
+
+    function initCatalogSearch() {
+        var searchInput = document.querySelector('.search-bar__input');
+
+        if (!searchInput) {
+            return;
+        }
+
+        loadCatalog();
+
+        searchInput.addEventListener('input', function () {
+            window.setTimeout(function () {
+                maybeFillSearchFromCatalog(searchInput);
+            }, 350);
+        });
+
+        var resultsInner = document.querySelector('.search-bar__results-inner');
+
+        if (resultsInner && window.MutationObserver) {
+            var observer = new MutationObserver(function () {
+                maybeFillSearchFromCatalog(searchInput);
+            });
+
+            observer.observe(resultsInner, { childList: true, subtree: true });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCatalogSearch);
+    } else {
+        initCatalogSearch();
+    }
+})();

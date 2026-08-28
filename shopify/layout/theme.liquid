@@ -96,7 +96,8 @@
         cartAddUrl: {{ routes.cart_add_url | json }},
         cartChangeUrl: {{ routes.cart_change_url | json }},
         searchUrl: {{ routes.search_url | json }},
-        productRecommendationsUrl: {{ routes.product_recommendations_url | json }}
+        productRecommendationsUrl: {{ routes.product_recommendations_url | json }},
+        productsCatalogUrl: {{ 'products-catalog.json' | asset_url | json }}
       };
 
       window.languages = {

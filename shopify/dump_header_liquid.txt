@@ -1,0 +1,60 @@
+241|                      {%- endfor -%}
+242|                    </select>
+243|                  </div>
+244|                {%- endif -%}
+245|
+246|                <button type="submit" class="search-bar__submit" aria-label="{{ 'header.search.submit' | t }}">
+247|                  {%- render 'icon', icon: 'search' -%}
+248|                  {%- render 'icon', icon: 'search-loader' -%}
+249|                </button>
+250|              </div>
+251|
+252|              <button type="button" class="search-bar__close-button hidden-tablet-and-up" data-action="unfix-search">
+253|                <span class="search-bar__close-text">{{ 'header.search.close_search' | t }}</span>
+254|              </button>
+255|            </div>
+256|
+257|            <div class="search-bar__inner">
+258|              <div class="search-bar__inner-animation">
+259|                <div class="search-bar__results" aria-hidden="true">
+260|                  <div class="skeleton-container">
+261|                    {%- for i in (1..3) -%}
+262|                      <div class="search-bar__result-item search-bar__result-item--skeleton">
+263|                        <div class="search-bar__image-container">
+264|                          <div class="aspect-ratio aspect-ratio--square">
+265|                            <div class="skeleton-image"></div>
+266|                          </div>
+267|                        </div>
+268|
+269|                        <div class="search-bar__item-info">
+270|                          <div class="skeleton-paragraph">
+271|                            <div class="skeleton-text"></div>
+272|                            <div class="skeleton-text"></div>
+273|                          </div>
+274|                        </div>
+275|                      </div>
+276|                    {%- endfor -%}
+277|                  </div>
+278|
+279|                  <div class="search-bar__results-inner">
+280|                    {%- comment -%}Placeholder div for real results{%- endcomment -%}
+281|                  </div>
+282|                </div>
+283|
+284|                {%- if search_menu.links.size > 0 -%}
+285|                  <div class="search-bar__menu-wrapper" aria-hidden="true">
+286|                    {%- if section.settings.show_search_menu_title -%}
+287|                      <p class="search-bar__menu-title heading">{{ search_menu.title }}</p>
+288|                    {%- endif -%}
+289|
+290|                    <ul class="search-bar__menu-linklist list--unstyled">
+291|                      {%- for link in search_menu.links -%}
+292|                        <li>
+293|                          <a href="{{ link.url }}" class="search-bar__menu-link">{{ link.title }}</a>
+294|                        </li>
+295|                      {%- endfor -%}
+296|                    </ul>
+297|                  </div>
+298|                {%- endif -%}
+299|              </div>
+300|            </div>

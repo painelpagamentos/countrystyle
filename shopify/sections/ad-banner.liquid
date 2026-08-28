@@ -1,16 +1,45 @@
 {%- if section.settings.show_adbanner -%}
+  {%- assign desktop_banner = section.settings.desktop_banner -%}
+  {%- assign mobile_banner = section.settings.mobile_banner | default: desktop_banner -%}
+
+  {%- comment -%}Fallback: banners da loja ao vivo quando imagens do editor não estão configuradas{%- endcomment -%}
+  {%- if desktop_banner == blank -%}
+    {%- assign desktop_banner_url = 'https://yunabella.myshopify.com/cdn/shop/files/yuna2_1920x50.png?v=1787586512' -%}
+    {%- assign mobile_banner_url = 'https://yunabella.myshopify.com/cdn/shop/files/yuna2_750x83.png?v=1787586512' -%}
+  {%- else -%}
+    {%- assign desktop_banner_url = desktop_banner | img_url: '1920x50' -%}
+    {%- assign mobile_banner_url = mobile_banner | img_url: '750x83' -%}
+  {%- endif -%}
+
   <section data-section-id="{{ section.id }}" data-section-type="top-banner" data-section-settings="{{ section_settings }}">
-      {%- if section.settings.desktop_banner != blank and section.settings.mobile_banner != blank  -%}
-        <div id="ad-banner">
-          <img id="ad-image" class="banner lazyload">
-        </div>
+    <div id="ad-banner">
+      {%- if section.settings.ad_link != blank -%}
+        <a href="{{ section.settings.ad_link }}" id="ad-banner-link" class="ad-banner__link">
       {%- endif -%}
+
+      <picture>
+        <source media="(min-width: 701px)" srcset="{{ desktop_banner_url }}">
+        <img
+          id="ad-image"
+          class="banner"
+          src="{{ mobile_banner_url }}"
+          alt="{{ shop.name }}"
+          width="750"
+          height="83"
+          loading="eager"
+          fetchpriority="high">
+      </picture>
+
+      {%- if section.settings.ad_link != blank -%}
+        </a>
+      {%- endif -%}
+    </div>
   </section>
 
   {% if section.settings.active_infinite_banner %}
     <script>
         $(document).ready(function () {
-            if ($.fn.simplyScroll) { $("#ad-banner").simplyScroll(); } /* guarda: simplyScroll nao existe em nenhum asset do tema; sem isso o TypeError abortava o resto deste callback */
+            if ($.fn.simplyScroll) { $("#ad-banner").simplyScroll(); }
 
             $(".banner").on("touchstart", function () {
                 this.click();
@@ -18,7 +47,7 @@
 
             {% if section.settings.ad_link %}
                 $(".simply-scroll-clip").on("click touchstart", function() {
-                    window.location.href = '{{ section.settings.ad_link.url }}';
+                    window.location.href = '{{ section.settings.ad_link.url | default: section.settings.ad_link }}';
                 });
             {% endif %}
         });
@@ -26,25 +55,23 @@
   {% endif %}
 
   <style>
-    {% if section.settings.ad_link %}
     #ad-banner {
+      background-color: {{ section.settings.background_color }};
+      line-height: 0;
+      overflow: hidden;
+    }
+
+    #ad-banner .ad-banner__link {
+      display: block;
       cursor: pointer;
     }
-    {% endif %}
 
-    #ad-banner {
+    #ad-banner img.banner {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
       background-color: {{ section.settings.background_color }};
-    }
-
-    #ad-banner .banner {
-      background-color: {{ section.settings.background_color }};
-      content: url({{ section.settings.mobile_banner | img_url: '750x83' }});
-    }
-
-    @media screen and (min-width: 701px) {
-      #ad-banner .banner {
-        content: url({{ section.settings.desktop_banner | img_url: '1920x50' }});
-      }
     }
 
     .simply-scroll-container {
@@ -70,7 +97,7 @@
       "type": "checkbox",
       "id": "show_adbanner",
       "label": "Mostrar banner de anúncio",
-      "default": false
+      "default": true
     },
     {
       "type": "checkbox",
@@ -108,7 +135,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Cor do fundo",
-      "default": "#FE2D48"
+      "default": "#80007f"
     }
   ]
 }
