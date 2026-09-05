@@ -46,7 +46,10 @@
             }
           }
         },
-        "block_order": ["slide-yuna2", "slide-yuna1"],
+        "block_order": [
+          "slide-yuna2",
+          "slide-yuna1"
+        ],
         "settings": {
           "edge_to_edge": true,
           "section_size": "preserve_ratio",
@@ -103,7 +106,12 @@
             }
           }
         },
-        "block_order": ["info-frete", "info-cupom", "info-atendimento", "info-segura"],
+        "block_order": [
+          "info-frete",
+          "info-cupom",
+          "info-atendimento",
+          "info-segura"
+        ],
         "settings": {
           "show_infobar": true,
           "stack_mobile": true,
@@ -146,7 +154,11 @@
             }
           }
         },
-        "block_order": ["cart-trust-frete", "cart-trust-cupom", "cart-trust-atendimento"],
+        "block_order": [
+          "cart-trust-frete",
+          "cart-trust-cupom",
+          "cart-trust-atendimento"
+        ],
         "settings": {
           "enable_order_notes": true,
           "show_payment_icons": true,
@@ -169,9 +181,21 @@
           "stack_products": false,
           "show_quick_buy": true
         }
+      },
+      "featured-collection-festival-vestidos-99-99": {
+        "type": "featured-collection",
+        "settings": {
+          "collection": "festival-de-vestidos-preco-maximo-99-99",
+          "title": "FESTIVAL DE VESTIDOS PREÇO MÁXIMO R$99,99",
+          "products_count": 12,
+          "layout": "vertical",
+          "stack_products": false,
+          "show_quick_buy": true
+        }
       }
     },
     "content_for_index": [
+      "featured-collection-festival-vestidos-99-99",
       "slideshow",
       "featured-collection-home"
     ]

@@ -6,8 +6,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const csvPath = path.join(__dirname, '..', 'shopify', 'produtos.csv');
-const outPath = path.join(__dirname, '..', 'shopify', 'assets', 'products-catalog.json');
+const csvPath = path.join(__dirname, '..', 'produtos.csv');
+const outPath = path.join(__dirname, '..', 'assets', 'products-catalog.json');
 
 function parseCsvLine(line) {
   const fields = [];
