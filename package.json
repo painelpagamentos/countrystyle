@@ -1,0 +1,12 @@
+{
+  "name": "countrystyle-proxy",
+  "version": "1.0.0",
+  "description": "Proxy package para deploy do cloudpanel-app",
+  "scripts": {
+    "postinstall": "cd cloudpanel-app && npm install",
+    "start": "cd cloudpanel-app && npm start"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

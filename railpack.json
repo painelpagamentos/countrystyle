@@ -1,17 +1,4 @@
 {
   "$schema": "https://schema.railpack.com",
-  "provider": "node",
-  "steps": {
-    "install": {
-      "commands": [
-        "cd cloudpanel-app && npm install"
-      ]
-    },
-    "build": {
-      "commands": []
-    }
-  },
-  "deploy": {
-    "startCommand": "cd cloudpanel-app && npm start"
-  }
+  "provider": "node"
 }
