@@ -1,0 +1,42 @@
+# Logs
+*.log
+server-log.txt
+cats-log*.txt
+scrape-log.txt
+
+# Scraping temporário e dumps
+cs-*.html
+cs-*.json
+cs-*.xml
+cs-theme-ref/
+country-style-backup-scrapes/
+col-check.html
+invalid-handles.json
+valid-products.json
+sm.txt
+
+# Dados e backups
+*.zip
+*.bak
+data/products-bak-*
+check-*.js
+cleanup-*.js
+fetch-*.js
+filter-*.js
+finalize-*.js
+fix-*.js
+integrate-*.js
+list-*.ps1
+probe-*.js
+probe-*.ps1
+rebuild-*.js
+repair-*.js
+scrape-*.js
+test-parse.js
+verify-site.js
+
+# Dependências
+node_modules/
+
+# Env
+.env
