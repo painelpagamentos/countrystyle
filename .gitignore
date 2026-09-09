@@ -15,6 +15,9 @@ invalid-handles.json
 valid-products.json
 sm.txt
 
+# Logs de push/deploy
+push*.log
+
 # Dados e backups
 *.zip
 *.bak
