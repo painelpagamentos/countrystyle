@@ -517,7 +517,7 @@ app.post('/webhooks/corvex', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || '127.0.0.1'; // atrás do nginx (CloudPanel) só localhost precisa acessar
+const HOST = process.env.HOST || '0.0.0.0';
 app.listen(PORT, HOST, () => {
   console.log('Servidor rodando em http://' + HOST + ':' + PORT);
 });
