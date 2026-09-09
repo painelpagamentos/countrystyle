@@ -263,6 +263,50 @@
   display: block;
 }
 
+/* Adbar: transição e setas de navegação (igual ao tema live) */
+.section-adbar .js-swiper-adbar .swiper-slide.adbar-active {
+  animation: adbar-fade-in .35s ease;
+}
+
+@keyframes adbar-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.section-adbar .swiper-adbar-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--adbar-foreground, #fff);
+  z-index: 5;
+}
+
+.section-adbar .js-swiper-adbar-prev {
+  left: 6px;
+}
+
+.section-adbar .js-swiper-adbar-next {
+  right: 6px;
+}
+
+.section-adbar .swiper-adbar-control .icon-inline {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.section-adbar .adbar-icon {
+  fill: var(--adbar-icon, #000);
+}
+
 /* Slideshow da home (fade) */
 .js-home-slider {
   position: relative;
