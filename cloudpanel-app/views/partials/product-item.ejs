@@ -1,0 +1,61 @@
+<%
+  if (typeof money !== 'function') { var money = function(v) { return 'R$ ' + Number(v).toFixed(2).replace('.', ','); }; }
+  var price = Number(product.price) || 0;
+  var compareAt = Number(product.compare_at_price) || 0;
+  var discount = (compareAt > price) ? Math.round((1 - price / compareAt) * 100) : 0;
+  var pixPrice = price * 0.9;
+  var nMax = Math.min(10, Math.floor(price / 50));
+  var nParc = Math.max(2, nMax);
+  var parcValue = price / nParc;
+  var imgs = (product.images || []).map(function (i) { return (typeof i === 'string') ? i : (i.src || ''); }).filter(Boolean);
+  var img0 = imgs[0] ? imgs[0].replace('/2048/', '/480/').replace('/1024/', '/480/') : '';
+  var img1 = (imgs[1] && imgs[1].indexOf('no-photo') < 0) ? imgs[1].replace('/2048/', '/480/').replace('/1024/', '/480/') : '';
+  var cardClasses = (typeof grid_classes !== 'undefined' && grid_classes) ? grid_classes : 'col-12 col-md-3';
+%>
+<div class="js-item-product js-item-slide <%= cardClasses %> item-product col-grid" data-product-id="<%= product.id %>" data-store="product-item-<%= product.id %>" data-component="product-list-item" data-component-value="<%= product.id %>">
+  <div class="item item-animation item-borders product-container">
+    <div class="js-product-item-image-container-private<%= img1 ? ' product-item-secondary-images-loaded' : '' %> item-image item-image-format-1">
+      <div class="js-item-image-padding item-image-padding position-relative" style="padding-bottom: 100%">
+        <a href="/products/<%= product.handle %>" title="<%= product.title %>" aria-label="<%= product.title %>" class="js-product-item-image-link-private">
+          <% if (img0) { %><img width="480" height="480" src="<%= img0 %>" alt="<%= product.title %>" loading="lazy" class="lazyload js-product-item-image-private product-item-image js-item-image img-absolute img-absolute-centered product-item-image-featured item-image-featured fade-in"><% } %>
+          <% if (img1) { %><img width="480" height="480" src="<%= img1 %>" alt="<%= product.title %>" loading="lazy" class="lazyload js-product-item-image-private product-item-image js-item-image img-absolute img-absolute-centered js-product-item-secondary-image-private product-item-image-secondary item-image-secondary fade-in"><% } %>
+        </a>
+        <% if (discount > 0) { %>
+        <div class="labels" data-store="product-item-labels">
+          <div class="label label-accent"><span class="label-offer-percentage"><%= discount %></span>% OFF</div>
+        </div>
+        <% } %>
+
+      </div>
+    </div>
+    <div class="item-description text-center px-2">
+      <div class="item-name-wrapper">
+        <a href="/products/<%= product.handle %>" class="item-link">
+          <div class="js-item-name item-name"><%= product.title %></div>
+        </a>
+      </div>
+      <div class="item-price-container d-flex flex-column">
+        <div class="item-compare-container order-0 item-featured-price">
+          <% if (discount > 0) { %><span class="js-compare-price-display price-compare"><%= money(compareAt) %></span><% } %>
+          <span class="js-price-display item-price"><%= money(price) %></span>
+        </div>
+        <div class="order-2 d-inline-flex align-items-center justify-content-center payment-discount-price-product">
+          <svg class="icon-inline payment-method-icon" aria-hidden="true"><use xlink:href="#pix"/></svg>
+          <span class="payment-discount-price"><%= money(pixPrice) %></span> com Pix
+        </div>
+        <% if (nMax >= 2) { %>
+        <div class="order-3 item-installments">
+          <div class="product-installments installment-no-interest">
+            <span class="installments-qty"><%= nParc %></span> x de <span class="installments-amount"><%= money(parcValue) %></span> sem juros
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <div class="item-actions mt-2">
+        <a href="/products/<%= product.handle %>" class="btn btn-add-to-cart w-100">
+          <svg class="icon-inline icon-md mr-1" aria-hidden="true"><use xlink:href="#cart"/></svg> Comprar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

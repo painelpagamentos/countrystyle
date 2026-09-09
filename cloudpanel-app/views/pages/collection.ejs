@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+<%- include('../partials/pre-header', { template: 'collection' }) %>
+<%- include('../partials/header') %>
+
+<div id="main" class="main-content">
+  <section class="section-home section-collection">
+    <div class="container">
+      <h1 class="text-heading collection-title"><%= collectionTitle %></h1>
+      <div class="row row-grid">
+        <% products.forEach(function (p) { %>
+        <%- include('../partials/product-item', { product: p, grid_classes: 'col-6 col-md-3' }) %>
+        <% }) %>
+      </div>
+      <% if (totalPages > 1) { %>
+      <div class="row">
+        <div class="col-12 d-flex justify-content-center align-items-center mt-4 pagination-box">
+          <% if (currentPage > 1) { %>
+          <a class="btn btn-secondary pagination-btn" href="/collections/<%= handle %>?page=<%= currentPage - 1 %>"><svg class="icon-inline icon-md icon-flip-horizontal"><use xlink:href="#chevron"/></svg> Anterior</a>
+          <% } %>
+          <span class="mx-3">Página <%= currentPage %> de <%= totalPages %></span>
+          <% if (currentPage < totalPages) { %>
+          <a class="btn btn-secondary pagination-btn" href="/collections/<%= handle %>?page=<%= currentPage + 1 %>">Próxima <svg class="icon-inline icon-md"><use xlink:href="#chevron"/></svg></a>
+          <% } %>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </section>
+</div>
+
+<%- include('../partials/footer') %>

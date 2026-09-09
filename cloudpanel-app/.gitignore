@@ -1,0 +1,6 @@
+.env
+node_modules/
+data/orders-log.json
+*.bak
+data/products.json
+data/collections.json

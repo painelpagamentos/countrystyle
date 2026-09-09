@@ -1,0 +1,207 @@
+<%- include('../partials/head') %>
+<%- include('../partials/pre-header', { template: 'index' }) %>
+<%- include('../partials/header') %>
+
+<div id="main" class="main-content">
+
+  <section class="section-home section-home-slider d-none d-md-block" data-store="home-main-slider">
+    <div class="js-home-slider" id="home-slider-desktop">
+      <%
+        var slidesDesktop = [
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1786569495061-3598503709-db63334818004b42c9478f28068185881786569496-1920-1920.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719959-7999060274-08809a70482235c116245c19baeb78211785532724-1920-1920.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719957-7650111922-5afa45f53b43635c4f8dcc4e6d9542041785532721-1920-1920.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719958-4620468828-3a53143c9a20d68eccae7a21bf967b051785532722-1920-1920.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719959-2845137803-66eee5d17deaaa0c9e923272472517c51785532723-1920-1920.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719958-7118927512-9a4f182997313dea30ccc9389f5efc181785532723-1920-1920.webp?3492836936039090351'
+        ];
+        var slidesMobile = [
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1786569495068-5678524532-0cf48c2d617ddc25e49fb0be73ca92c51786569497-1024-1024.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441830-4560387409-2fe832f10de3d2c170ac3d2346adba181785533443-1024-1024.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441830-6915209858-5e293d5c034a5a86a1c639ef1de8595e1785533443-1024-1024.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441830-778274698-d91387129bf36bf408763b5edb20c1601785533444-1024-1024.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441831-624373058-885e660fc42dcfa4db50829962a311bb1785533444-1024-1024.webp?3492836936039090351',
+          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441831-5199785013-72fb0e3771508cfdf58ce638c25844ca1785533444-1024-1024.webp?3492836936039090351'
+        ];
+      %>
+      <% slidesDesktop.forEach(function (src, i) { %>
+      <a href="/collections/mais-vendidos" class="home-slide <%= i === 0 ? 'active' : '' %>">
+        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1920" height="640" <%= i === 0 ? '' : 'loading="lazy"' %>>
+      </a>
+      <% }) %>
+      <button type="button" class="home-slider-prev" aria-label="Anterior"><svg class="icon-inline icon-lg icon-flip-horizontal"><use xlink:href="#chevron"/></svg></button>
+      <button type="button" class="home-slider-next" aria-label="Próximo"><svg class="icon-inline icon-lg"><use xlink:href="#chevron"/></svg></button>
+    </div>
+  </section>
+
+  <section class="section-home section-home-slider d-md-none" data-store="home-main-slider">
+    <div class="js-home-slider" id="home-slider-mobile">
+      <% slidesMobile.forEach(function (src, i) { %>
+      <a href="/collections/mais-vendidos" class="home-slide <%= i === 0 ? 'active' : '' %>">
+        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1024" height="711" <%= i === 0 ? '' : 'loading="lazy"' %>>
+      </a>
+      <% }) %>
+      <button type="button" class="home-slider-prev" aria-label="Anterior"><svg class="icon-inline icon-lg icon-flip-horizontal"><use xlink:href="#chevron"/></svg></button>
+      <button type="button" class="home-slider-next" aria-label="Próximo"><svg class="icon-inline icon-lg"><use xlink:href="#chevron"/></svg></button>
+    </div>
+  </section>
+
+  <section class="section-home section-informative-banners" data-store="banner-services">
+    <div class="container">
+      <div class="services-row">
+        <div class="service-item">
+          <div class="service-image"><svg class="icon-inline service-icon"><use xlink:href="#truck"/></svg></div>
+          <div class="service-text">
+            <div class="service-title mb-1 w-100">GANHE FRETE GRÁTIS</div>
+            <p class="m-0">Em compras acima de R$ 300 para Sul, Sudeste e Centro-Oeste</p>
+          </div>
+        </div>
+        <div class="service-item">
+          <div class="service-image"><svg class="icon-inline service-icon"><use xlink:href="#credit-card"/></svg></div>
+          <div class="service-text">
+            <div class="service-title mb-1 w-100">ATÉ 10X SEM JUROS</div>
+            <p class="m-0">Parcele usando o seu cartão de crédito</p>
+          </div>
+        </div>
+        <div class="service-item">
+          <a href="https://instagram.com/country_stylemodas" class="banner-services-link" target="_blank" rel="noopener">
+            <div class="service-image"><svg class="icon-inline service-icon"><use xlink:href="#barcode"/></svg></div>
+            <div class="service-text">
+              <div class="service-title mb-1 w-100">PROMOÇÕES DIÁRIAS NO INSTAGRAM</div>
+              <p class="m-0">Clique aqui e fique por dentro das nossas melhores ofertas</p>
+            </div>
+          </a>
+        </div>
+        <div class="service-item">
+          <div class="service-image"><svg class="icon-inline service-icon"><use xlink:href="#tag"/></svg></div>
+          <div class="service-text">
+            <div class="service-title mb-1 w-100">COMPRE NO PIX COM 10% OFF</div>
+            <p class="m-0">Pague via Pix e ganhe desconto na sua compra</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-home section-categories" data-store="home-categories">
+    <div class="container">
+      <div class="section-title section-title-uppercase mx-auto row">
+        <div class="col-12 text-center">
+          <h2 class="text-heading mb-0">Compre por categoria 🤠</h2>
+        </div>
+      </div>
+      <%
+        var categories = [
+          { label: 'Mais Vendidos', href: '/collections/mais-vendidos', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-5518711630-c9d22a3b571204b8fe44da276dffd0d31765369279-480-0.webp?3492836936039090351' },
+          { label: 'Chapéus', href: '/collections/chapeu', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-2727036088-e62b4d59afbf3f3de50057a5894b97ea1765369279-480-0.webp?3492836936039090351' },
+          { label: 'Calças Femininas', href: '/collections/mulheres-roupas-calcas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-1064558897-cbc58316ad3e6318c9d651003eb393911765369280-480-0.webp?3492836936039090351' },
+          { label: 'Calças Masculinas', href: '/collections/homens-roupas-masculinas-calcas-masculinas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-986149884-cb7289482f285baa35016c5515820f451765369280-480-0.webp?3492836936039090351' },
+          { label: 'Botas Femininas', href: '/collections/mulheres-botas-femininas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-2924833401-360a757a8cafe427dd0f50645547a4431765369281-480-0.webp?3492836936039090351' },
+          { label: 'Botas Masculinas', href: '/collections/homens-botas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-3035399186-73c1a4a84533b0479b3cfc682191bb0e1765369281-480-0.webp?3492836936039090351' },
+          { label: 'Kits Femininos', href: '/collections/kits-monte-aqui-seu-kit-feminino3', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-8148984309-16238fca6c17b8daa417d9c7736c72ff1765369282-480-0.webp?3492836936039090351' },
+          { label: 'Kits Masculinos', href: '/collections/kits-monte-aqui-seu-kit-masculino3', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-4366298107-ca4baeee34e6708c25aaaddc3427f1971765369282-480-0.webp?3492836936039090351' },
+          { label: 'Blusas e Camisetas', href: '/collections/mulheres-roupas-blusas-e-camisetas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-7684643900-f7212ab953c102fb3f334ce1fa6629171765369283-480-0.webp?3492836936039090351' },
+          { label: 'Camisetas', href: '/collections/ofertas-blusinhas-e-camisetas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-1990457244-0921a843739be13d68f380117410997e1765369283-480-0.webp?3492836936039090351' },
+          { label: 'Camisas Femininas', href: '/collections/mulheres-roupas-camisas-femininas-manga-longa', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-2207845183-3bba6d127ca4d0d921d3accb8d512f651765369283-480-0.webp?3492836936039090351' },
+          { label: 'Camisas', href: '/collections/homens-roupas-masculinas-camisas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-635876741-a1830f8a8b45673aa09e8359675b78431765369284-480-0.webp?3492836936039090351' },
+          { label: 'Bonés', href: '/collections/homens-bones-masculinos', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-5246181671-348a5bdee5eca9efad07a0f8f5b757c21765369284-480-0.webp?3492836936039090351' },
+          { label: 'Lançamentos', href: '/collections/mulheres-lancamento', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-2171085903-347e18db190e056239eecba8791275061765369285-480-0.webp?3492836936039090351' }
+        ];
+      %>
+      <div class="container position-relative px-0 px-md-3">
+        <div class="js-swiper-categories home-categories-swiper">
+          <div class="home-categories-track js-cats-track">
+            <% categories.forEach(function (cat) { %>
+            <div class="home-category text-center">
+              <a href="<%= cat.href %>" class="js-home-category" aria-label="<%= cat.label %>">
+                <div class="home-category-image category-circle">
+                  <img class="textbanner-image-effect img-fluid d-block w-100" src="<%= cat.img %>" alt="<%= cat.label %>" loading="lazy" width="480" height="480">
+                </div>
+              </a>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+        <div class="js-swiper-categories-prev swiper-button-prev d-none d-md-block svg-icon-text js-cats-prev" role="button" aria-label="Categorias anteriores">
+          <svg class="icon-inline icon-lg icon-flip-horizontal"><use xlink:href="#chevron"/></svg>
+        </div>
+        <div class="js-swiper-categories-next swiper-button-next d-none d-md-block svg-icon-text js-cats-next" role="button" aria-label="Próximas categorias">
+          <svg class="icon-inline icon-lg"><use xlink:href="#chevron"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-home section-featured-home section-new-products-home section-new-products-home-colors section-home-color" data-store="home-products-new">
+    <div class="container">
+      <div class="section-title section-title-uppercase mx-auto row">
+        <div class="col-12 text-center">
+          <h2 class="text-heading mb-0">Lançamentos 🤠</h2>
+        </div>
+        <div class="col-12 text-center mt-2">
+          <p class="home-subtitle text-subtitle">Confira as nossas últimas novidades</p>
+        </div>
+      </div>
+      <div class="row row-grid animation-container">
+        <% products.slice(0, 12).forEach(function (p) { %>
+        <%- include('../partials/product-item', { product: p, grid_classes: 'col-6 col-md-2' }) %>
+        <% }) %>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center mt-4">
+          <a href="/collections/mais-vendidos" class="btn btn-secondary">Ver todos os produtos</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-home section-banners-home section-banners-featured position-relative" data-store="home-banner-featured">
+    <div class="container">
+      <a href="/collections/ofertas">
+        <img class="w-100 d-block d-md-none" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-img-1973761847-1764969717-28969986e9b5294b8573a1d7cd25b4531764969717-1920-1920.webp" alt="Banner Ofertas" loading="lazy">
+        <img class="w-100 d-none d-md-block" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-img-711308212-1764969717-75f8a7705a22c6ab2d571b53177abdeb1764969717-1920-1920.webp" alt="Banner Ofertas" loading="lazy">
+      </a>
+    </div>
+  </section>
+
+  <section class="home-promos section-home" data-store="home-banner-products">
+    <div class="container mb-3">
+      <div class="section-title section-title-uppercase mx-auto row">
+        <div class="col-12 text-center">
+          <h2 class="text-heading mb-0">CONHEÇA A TEX TEAM</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <a href="/collections/tex-team" class="item-banner d-block">
+        <img class="w-100 d-block d-md-none" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-img-1372805007-1730388013-251ca4be61967bfa0857e4dba79cde331730388013-1920-1920.webp" alt="Conheça a Tex Team" loading="lazy">
+        <img class="w-100 d-none d-md-block" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-img-1894544859-1730388012-69d62dec79b6030a19eb978ba90138081730388012-1920-1920.webp" alt="Conheça a Tex Team" loading="lazy">
+      </a>
+    </div>
+  </section>
+
+  <section class="section-home section-banners-home section-banners-promotional position-relative" data-store="home-banner-promotional">
+    <div class="container">
+      <div class="section-title section-title-uppercase mx-auto row">
+        <div class="col-12 text-center">
+          <h2 class="text-heading mb-0">Conheça nossos Kits 👢</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-4 textbanner">
+          <a href="/collections/kits-monte-aqui-seu-kit-feminino3" class="textbanner-link" aria-label="Kits Femininos">
+            <img class="w-100 d-block" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1762881669759-3637725911-3ad4c106055a5e0e42c139356f3a8c541762881665-640-0.webp" alt="Kits Femininos" loading="lazy">
+          </a>
+        </div>
+        <div class="col-12 col-md-4 textbanner">
+          <a href="/collections/kits-monte-aqui-seu-kit" class="textbanner-link" aria-label="Kits Masculinos / Casal">
+            <img class="w-100 d-block" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1762881669759-5015826379-02f60b2f55a2a056b55c9b106e0b3a461762881665-640-0.webp" alt="Kits Casal" loading="lazy">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<%- include('../partials/footer') %>

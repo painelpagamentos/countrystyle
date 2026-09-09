@@ -1,0 +1,251 @@
+<%- include('../partials/head') %>
+<%- include('../partials/pre-header', { template: 'product' }) %>
+<%- include('../partials/header') %>
+
+<%
+  var fmt = function (v) { return 'R$ ' + Number(v).toFixed(2).replace('.', ','); };
+  var price = Number(product.price) || 0;
+  var variants = product.variants || [];
+  var firstVar = variants[0] || {};
+  var compareAt = Number(firstVar.compareAtPrice) || Number(product.compare_at_price) || 0;
+  var discount = (compareAt > price) ? Math.round((1 - price / compareAt) * 100) : 0;
+  var pixPrice = price * 0.9;
+  var nMax = Math.min(10, Math.floor(price / 50));
+  var imgs = (product.images || []).map(function (i) { return i.src || i; });
+  var totalStock = variants.reduce(function (acc, v) { return acc + (Number(v.inventoryQuantity) || 0); }, 0);
+  var multiDimension = variants.some(function (v) { return String(v.title || '').indexOf('/') >= 0; });
+  var variantImageMap = {};
+  variants.forEach(function (v) { if (v.image) variantImageMap[String(v.id)] = v.image; });
+  var singleReal = variants.length === 1 && variants[0].title && !/^(padrão|padrao|default title)$/i.test(String(variants[0].title).trim());
+  var showPills = (variants.length > 1 && !multiDimension) || singleReal;
+  var rawOptionName = (product.options && product.options[0] && product.options[0].name) || '';
+  var firstOptionName = (!rawOptionName || /^opção \d$/i.test(rawOptionName) || /^opcao \d$/i.test(rawOptionName)) ? 'Tamanho' : rawOptionName;
+  var realOptionNames = (product.options || []).map(function (o) { return o && o.name; })
+    .filter(function (n) { return n && !/^opção \d$/i.test(n) && !/^opcao \d$/i.test(n); });
+  var multiDimLabel = realOptionNames.length === 1 ? realOptionNames[0]
+    : (realOptionNames.length === 2 && realOptionNames[0] === realOptionNames[1]) ? realOptionNames[0]
+    : (realOptionNames.length ? realOptionNames.join(' / ') : 'Tamanho');
+%>
+
+<div id="main" class="main-content">
+  <section class="section-home section-product">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-6 product-detail-gallery">
+          <div class="product-gallery">
+            <% if (imgs.length > 1) { %>
+            <div class="product-thumbs-col js-thumbs-col">
+              <% imgs.forEach(function (src, i) { %>
+              <button type="button" class="product-thumb <%= i === 0 ? 'active' : '' %>" data-src="<%= src %>" aria-label="Imagem <%= i + 1 %>">
+                <img src="<%= src %>" alt="<%= product.title %>" loading="lazy" width="100" height="100">
+              </button>
+              <% }) %>
+            </div>
+            <% } %>
+            <div class="product-gallery-main">
+              <% if (imgs.length) { %>
+              <img id="product-main-image" src="<%= imgs[0] %>" alt="<%= product.title %>">
+              <% } %>
+              <% if (discount > 0) { %>
+              <span class="product-label product-label-offer"><%= discount %>% OFF</span>
+              <% } %>
+              <% if (totalStock > 0 && totalStock <= 5) { %>
+              <span class="product-label product-label-last">ATENÇÃO, ÚLTIMA PEÇA! COMPRE AGORA!</span>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 product-info">
+          <h1 class="product-title text-heading"><%= product.title %></h1>
+          <% if (product.vendor) { %>
+          <div class="product-meta mb-2">
+            <span class="product-meta-item"><span class="product-meta-label">Marca:</span> <span class="product-meta-value"><%= product.vendor %></span></span>
+          </div>
+          <% } %>
+
+          <div class="price-container mb-3">
+            <div class="d-flex align-items-center flex-wrap">
+              <% if (discount > 0) { %><span class="js-compare-price-display price-compare"><%= fmt(compareAt) %></span><% } %>
+              <span class="js-price-display product-price" id="product-price"><%= fmt(price) %></span>
+              <% if (discount > 0) { %><span class="product-offer-percentage ml-2"><%= discount %>% OFF</span><% } %>
+            </div>
+            <div class="payment-discount-price-product-container">
+              <span class="payment-discount-price" id="product-pix-price"><%= fmt(pixPrice) %></span> com Pix
+            </div>
+            <% if (nMax >= 2) { %>
+            <div class="product-installments mb-1">
+              <span id="product-parc-qty"><%= nMax %></span> x de <span id="product-parc-value"><%= fmt(price / nMax) %></span> sem juros
+            </div>
+            <% } %>
+            <div class="product-discount-line">
+              <strong class="text-accent">10% de desconto</strong> pagando com Pix
+            </div>
+            <a class="product-installments-link" href="#product-form" id="btn-installments">
+              <svg class="icon-inline icon-lg svg-icon-text"><use xlink:href="#credit-card-blank"/></svg> Ver mais detalhes
+            </a>
+          </div>
+
+          <form id="yb-product-form" action="/cart/add" method="post" class="product-form js-product-form">
+            <% if (showPills) { %>
+            <div class="variant-container mb-2">
+              <label class="form-label"><%= firstOptionName %>: <strong class="js-variation-label"><%= firstVar.title %></strong></label>
+              <div class="variant-pills js-variant-pills">
+                <% variants.forEach(function (v, i) { %>
+                <a class="js-insta-variant btn-variant <%= i === 0 ? 'selected' : '' %>"
+                   data-variant-id="<%= v.id %>" data-price="<%= v.price %>" data-compare="<%= v.compareAtPrice || 0 %>"
+                   data-image="<%= v.image || '' %>" data-option="<%= v.title %>" title="<%= v.title %>">
+                  <span class="btn-variant-content"><%= v.title %></span>
+                </a>
+                <% }) %>
+              </div>
+            </div>
+            <% } else if (variants.length > 1 && multiDimension) { %>
+            <div class="variant-container mb-2">
+              <label class="form-label" for="product-variant-select"><%= multiDimLabel %></label>
+              <div class="position-relative">
+                <select id="product-variant-select" class="form-select js-variation-option">
+                  <% variants.forEach(function (v) { %>
+                  <option value="<%= v.id %>" data-price="<%= v.price %>" data-compare="<%= v.compareAtPrice || 0 %>" data-image="<%= v.image || '' %>"><%= v.title %></option>
+                  <% }) %>
+                </select>
+                <div class="form-select-icon"><svg class="icon-inline icon-w-14"><use xlink:href="#chevron-down"/></svg></div>
+              </div>
+            </div>
+            <% } %>
+            <input type="hidden" name="id" value="<%= firstVar.id %>" id="yb-variant-id">
+            <div class="form-row row-buy">
+              <div class="qty-col">
+                <div class="form-quantity js-form-quantity">
+                  <span class="form-quantity-icon js-qty-down" aria-label="Diminuir quantidade"><svg class="icon-inline"><use xlink:href="#minus"/></svg></span>
+                  <input type="number" name="quantity" value="1" min="1" class="product-qty-input js-qty-input" aria-label="Alterar quantidade" pattern="\d*">
+                  <span class="form-quantity-icon js-qty-up" aria-label="Aumentar quantidade"><svg class="icon-inline"><use xlink:href="#plus"/></svg></span>
+                </div>
+              </div>
+              <div class="buy-col">
+                <button type="submit" class="btn btn-add-to-cart btn-big js-addtocart w-100">
+                  Comprar
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="divider"></div>
+          <div class="product-description">
+            <%- product.description || '' %>
+          </div>
+        </div>
+      </div>
+
+      <% if (typeof relatedProducts !== 'undefined' && relatedProducts && relatedProducts.length) { %>
+      <div class="related-products mt-5">
+        <div class="section-title section-title-uppercase mx-auto row">
+          <div class="col-12 text-center">
+            <h2 class="text-heading mb-0">Você também pode gostar</h2>
+          </div>
+        </div>
+        <div class="row row-grid">
+          <% relatedProducts.forEach(function (p) { %>
+          <%- include('../partials/product-item', { product: p, grid_classes: 'col-6 col-md-3' }) %>
+          <% }) %>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </section>
+</div>
+
+<script>
+  window.__YB_PRODUCT__ = {
+    id: "<%= product.id %>",
+    handle: "<%= product.handle %>",
+    title: <%- JSON.stringify(product.title) %>,
+    images: <%- JSON.stringify((product.images || []).map(function (i) { return { src: i.src || i }; })) %>,
+    variants: <%- JSON.stringify((product.variants || []).map(function (v) { return { id: String(v.id), title: v.title, price: Number(v.price), image: v.image || '' }; })) %>
+  };
+
+  (function () {
+    var fmt = function (v) { return 'R$ ' + Number(v).toFixed(2).replace('.', ','); };
+    var hidden = document.getElementById('yb-variant-id');
+    var priceEl = document.getElementById('product-price');
+    var pixEl = document.getElementById('product-pix-price');
+    var compareEl = document.querySelector('.js-compare-price-display');
+    var parcQty = document.getElementById('product-parc-qty');
+    var parcVal = document.getElementById('product-parc-value');
+    var mainImage = document.getElementById('product-main-image');
+
+    function updateVariant(vId, price, compare, image, label) {
+      if (hidden && vId) hidden.value = vId;
+      if (priceEl) priceEl.textContent = fmt(price);
+      if (pixEl) pixEl.textContent = fmt(price * 0.9);
+      if (compareEl) compareEl.textContent = fmt(compare);
+      if (parcQty) {
+        var n = Math.min(10, Math.floor(price / 50));
+        if (n >= 2) {
+          parcQty.textContent = n;
+          if (parcVal) parcVal.textContent = fmt(price / n);
+          parcQty.closest('.product-installments').style.display = '';
+        } else if (parcQty.closest('.product-installments')) {
+          parcQty.closest('.product-installments').style.display = 'none';
+        }
+      }
+      if (image && mainImage) mainImage.src = image;
+      var labelEl = document.querySelector('.js-variation-label');
+      if (labelEl && label) labelEl.textContent = label;
+    }
+
+    // Pills (variação simples)
+    var pills = document.querySelectorAll('.js-insta-variant');
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function (e) {
+        e.preventDefault();
+        pills.forEach(function (p) { p.classList.remove('selected'); });
+        pill.classList.add('selected');
+        updateVariant(
+          pill.getAttribute('data-variant-id'),
+          Number(pill.getAttribute('data-price')) || 0,
+          Number(pill.getAttribute('data-compare')) || 0,
+          pill.getAttribute('data-image') || '',
+          pill.getAttribute('data-option')
+        );
+      });
+    });
+
+    // Select (variação composta)
+    var select = document.getElementById('product-variant-select');
+    if (select) {
+      select.addEventListener('change', function () {
+        var opt = select.options[select.selectedIndex];
+        updateVariant(
+          opt.value,
+          Number(opt.getAttribute('data-price')) || 0,
+          Number(opt.getAttribute('data-compare')) || 0,
+          opt.getAttribute('data-image') || '',
+          opt.textContent
+        );
+      });
+    }
+
+    // Stepper de quantidade
+    var qtyInput = document.querySelector('.js-qty-input');
+    var qDown = document.querySelector('.js-qty-down');
+    var qUp = document.querySelector('.js-qty-up');
+    function setQty(n) {
+      n = Math.max(1, isNaN(n) ? 1 : n);
+      if (qtyInput) qtyInput.value = n;
+    }
+    if (qDown) qDown.addEventListener('click', function () { setQty((parseInt(qtyInput.value, 10) || 1) - 1); });
+    if (qUp) qUp.addEventListener('click', function () { setQty((parseInt(qtyInput.value, 10) || 1) + 1); });
+    if (qtyInput) qtyInput.addEventListener('change', function () { setQty(parseInt(qtyInput.value, 10) || 1); });
+
+    // Galeria
+    document.querySelectorAll('.product-thumb').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (mainImage) mainImage.src = btn.getAttribute('data-src');
+        document.querySelectorAll('.product-thumb').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      });
+    });
+  })();
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+<%- include('../partials/pre-header', { template: 'search' }) %>
+<%- include('../partials/header') %>
+
+<div id="main" class="main-content">
+  <section class="section-home section-search">
+    <div class="container">
+      <h1 class="text-heading collection-title">Busca</h1>
+      <% if (query) { %>
+      <p class="search-summary">Resultados para "<strong><%= query %></strong>" (<%= products.length %> encontrado(s))</p>
+      <% } else { %>
+      <p class="search-summary">Digite um termo para buscar produtos.</p>
+      <% } %>
+
+      <% if (products.length === 0) { %>
+      <div class="empty-search text-center py-5">
+        <p class="h4">Nenhum resultado para "<%= query %>"</p>
+        <a href="/collections/all" class="btn btn-secondary mt-3">Ver todos os produtos</a>
+      </div>
+      <% } else { %>
+      <div class="row row-grid">
+        <% products.forEach(function (p) { %>
+        <%- include('../partials/product-item', { product: p, grid_classes: 'col-6 col-md-3' }) %>
+        <% }) %>
+      </div>
+      <% } %>
+    </div>
+  </section>
+</div>
+
+<%- include('../partials/footer') %>
