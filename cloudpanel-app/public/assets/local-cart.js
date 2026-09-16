@@ -185,7 +185,18 @@
       quantity
     );
 
-    window.location.href = '/cart';
+    // Navegar para /cart via clique em link real (e não via location.href):
+    // o pixel UTMify dispara InitiateCheckout em cliques de link com URL
+    // /cart. Se o pixel não carregar, o clique nativo navega normalmente.
+    var navLink = document.createElement('a');
+    navLink.href = '/cart';
+    navLink.style.display = 'none';
+    document.body.appendChild(navLink);
+    navLink.click();
+    // Segurança: se o pixel prevenir o default e travar, força a navegação
+    setTimeout(function () {
+      window.location.href = '/cart';
+    }, 2500);
   }, true);
 
   // ------------------------------------------------------------
