@@ -19,8 +19,8 @@
       </div>
       <% } else { %>
       <div class="row row-grid">
-        <% products.forEach(function (p) { %>
-        <%- include('../partials/product-item', { product: p, grid_classes: 'col-6 col-md-3' }) %>
+        <% products.forEach(function (p, i) { %>
+        <%- include('../partials/product-item', { product: p, grid_classes: 'col-6 col-md-3', index: i }) %>
         <% }) %>
       </div>
       <% } %>

@@ -44,7 +44,7 @@
             <% } %>
             <div class="product-gallery-main">
               <% if (imgs.length) { %>
-              <img id="product-main-image" src="<%= imgs[0] %>" alt="<%= product.title %>">
+              <img id="product-main-image" src="<%= imgs[0] %>" alt="<%= product.title %>" fetchpriority="high" decoding="async">
               <% } %>
               <% if (discount > 0) { %>
               <span class="product-label product-label-offer"><%= discount %>% OFF</span>

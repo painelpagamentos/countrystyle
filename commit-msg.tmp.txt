@@ -1,0 +1,10 @@
+perf: otimizacao completa para PageSpeed Mobile (LCP/FCP/Speed Index)
+
+- Gzip (compression level 6) + cache headers (1 ano assets, 1 dia resto)
+- head.ejs: fontes Google async (media=print trick), preconnects, favicon otimizado, preload do LCP por template, asset versioning
+- CSS minificado (flex.min.css, flex-site.min.css)
+- Logo em WebP 19KB com fallback PNG otimizado (58KB), favicon-64
+- fetchpriority=high no LCP (slide 0 home, imagem principal do produto)
+- 4 primeiros cards de colecao/busca sem lazy, resto com lazy
+- lazy + dimensions nas imagens do footer
+- Removidos 26 assets legados nao utilizados (~2MB)

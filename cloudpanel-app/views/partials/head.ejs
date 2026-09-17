@@ -11,17 +11,50 @@
 <meta property="og:description" content="Moda Country Masculina e Feminina - Botas, chapéus, calças, camisas e acessórios.">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Country Style">
 <meta name="twitter:description" content="Moda Country Masculina e Feminina.">
-<link rel="icon" type="image/png" href="/assets/countrystyle-logo.png">
+<link rel="icon" type="image/png" href="/assets/favicon-64.png">
+<link rel="preconnect" href="https://acdn-us.mitiendanube.com" crossorigin="">
+<link rel="dns-prefetch" href="https://acdn-us.mitiendanube.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Bree+Serif:400,700%7CSora:400,600,700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bree+Serif:400,700%7CSora:400,600,700&display=swap">
-<link rel="preload" href="/assets/flex.css" as="style">
-<link rel="stylesheet" href="/assets/flex.css">
-<link rel="stylesheet" href="/assets/flex-site.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bree+Serif:400,700%7CSora:400,600,700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bree+Serif:400,700%7CSora:400,600,700&display=swap"></noscript>
+<%
+  /* Preload do elemento LCP por tipo de página (sem alterar UX) */
+  var assetV = '202609162';
+  if (typeof template !== 'undefined' && template === 'index') {
+    var lcpMobile = 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1786569495068-5678524532-0cf48c2d617ddc25e49fb0be73ca92c51786569497-1024-1024.webp?3492836936039090351';
+    var lcpDesktop = 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1786569495061-3598503709-db63334818004b42c9478f28068185881786569496-1920-1920.webp?3492836936039090351';
+%>
+<link rel="preload" as="image" href="<%= lcpMobile %>" media="(max-width: 767px)" fetchpriority="high">
+<link rel="preload" as="image" href="<%= lcpDesktop %>" media="(min-width: 768px)" fetchpriority="high">
+<%
+  } else if (typeof template !== 'undefined' && template === 'product' && typeof product !== 'undefined' && product && product.images && product.images.length) {
+    var lcpProduct = (typeof product.images[0] === 'string') ? product.images[0] : (product.images[0] && product.images[0].src);
+    if (lcpProduct) {
+%>
+<link rel="preload" as="image" href="<%= lcpProduct %>" fetchpriority="high">
+<%
+    }
+  } else if ((typeof template !== 'undefined' && (template === 'collection' || template === 'search')) && typeof products !== 'undefined' && products && products.length) {
+    for (var _i = 0; _i < Math.min(2, products.length); _i++) {
+      var _pi = products[_i].images || [];
+      var _ps = _pi.length ? ((typeof _pi[0] === 'string') ? _pi[0] : (_pi[0].src || '')) : '';
+      if (_ps) {
+        _ps = _ps.replace('/2048/', '/480/').replace('/1024/', '/480/');
+%>
+<link rel="preload" as="image" href="<%= _ps %>" <%= _i === 0 ? 'fetchpriority="high"' : '' %>>
+<%
+      }
+    }
+  }
+%>
+<link rel="preload" href="/assets/flex.min.css?v=<%= assetV %>" as="style">
+<link rel="stylesheet" href="/assets/flex.min.css?v=<%= assetV %>">
+<link rel="stylesheet" href="/assets/flex-site.min.css?v=<%= assetV %>">
 <script>window.theme = {currency: "R$", money_format: "decimal", cart_url: "/cart"};</script>
-<script src="/assets/local-cart.js" defer></script>
-<script src="/assets/flex.js" defer></script>
+<script src="/assets/local-cart.js?v=<%= assetV %>" defer></script>
+<script src="/assets/flex.js?v=<%= assetV %>" defer></script>
 <script>
   // Back redirect (todas as páginas)
   const link = 'https://countrystyle.site';

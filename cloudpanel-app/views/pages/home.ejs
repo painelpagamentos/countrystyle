@@ -26,7 +26,7 @@
       %>
       <% slidesDesktop.forEach(function (src, i) { %>
       <a href="/collections/mais-vendidos" class="home-slide <%= i === 0 ? 'active' : '' %>">
-        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1920" height="640" <%= i === 0 ? '' : 'loading="lazy"' %>>
+        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1920" height="640" <%= i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"' %>>
       </a>
       <% }) %>
       <button type="button" class="home-slider-prev" aria-label="Anterior"><svg class="icon-inline icon-lg icon-flip-horizontal"><use xlink:href="#chevron"/></svg></button>
@@ -38,7 +38,7 @@
     <div class="js-home-slider" id="home-slider-mobile">
       <% slidesMobile.forEach(function (src, i) { %>
       <a href="/collections/mais-vendidos" class="home-slide <%= i === 0 ? 'active' : '' %>">
-        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1024" height="711" <%= i === 0 ? '' : 'loading="lazy"' %>>
+        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1024" height="711" <%= i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"' %>>
       </a>
       <% }) %>
       <button type="button" class="home-slider-prev" aria-label="Anterior"><svg class="icon-inline icon-lg icon-flip-horizontal"><use xlink:href="#chevron"/></svg></button>

@@ -1,4 +1,5 @@
 const express = require('express');
+const compression = require('compression');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
@@ -16,7 +17,30 @@ if (fs.existsSync(envPath)) {
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, '../public')));
+// Compressão gzip para respostas textuais (HTML, CSS, JS, JSON, SVG)
+app.use(compression({
+  level: 6,
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) return false;
+    return compression.filter(req, res);
+  }
+}));
+
+// Assets estáticos com cache longo (1 ano) — arquivos imutáveis
+const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+app.use('/assets', express.static(path.join(__dirname, '../public/assets'), {
+  maxAge: ONE_YEAR_MS,
+  etag: true,
+  lastModified: true
+}));
+
+// Demais arquivos públicos com cache de 1 dia
+app.use(express.static(path.join(__dirname, '../public'), {
+  maxAge: 24 * 60 * 60 * 1000,
+  etag: true,
+  lastModified: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
@@ -109,6 +133,7 @@ app.get('/', (req, res) => {
   });
 
   res.render('pages/home', {
+    template: 'index',
     homeSections,
     products: products.slice(0, 12),
     product: null
@@ -137,6 +162,7 @@ app.get('/collections/:handle', (req, res) => {
   const pageProducts = collectionProducts.slice((currentPage - 1) * perPage, currentPage * perPage);
 
   res.render('pages/collection', {
+    template: 'collection',
     products: pageProducts,
     collectionTitle,
     total,
@@ -167,7 +193,7 @@ app.get('/products/:handle', (req, res) => {
   }
   related = related.slice(0, 8);
 
-  res.render('pages/product', { product, relatedProducts: related });
+  res.render('pages/product', { template: 'product', product, relatedProducts: related });
 });
 
 // Página de Carrinho
@@ -211,11 +237,11 @@ app.get('/search', (req, res) => {
     });
   }
 
-  res.render('pages/search', { products: unique, query: q, product: null });
+  res.render('pages/search', { template: 'search', products: unique, query: q, product: null });
 });
 
 app.get('/cart', (req, res) => {
-  res.render('pages/cart', { product: null });
+  res.render('pages/cart', { template: 'cart', product: null });
 });
 
 // Mock simples de carrinho para evitar erros de scripts antigos e permitir API REST

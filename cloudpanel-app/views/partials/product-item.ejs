@@ -11,14 +11,20 @@
   var img0 = imgs[0] ? imgs[0].replace('/2048/', '/480/').replace('/1024/', '/480/') : '';
   var img1 = (imgs[1] && imgs[1].indexOf('no-photo') < 0) ? imgs[1].replace('/2048/', '/480/').replace('/1024/', '/480/') : '';
   var cardClasses = (typeof grid_classes !== 'undefined' && grid_classes) ? grid_classes : 'col-12 col-md-3';
+  /* Primeiros cards acima da dobra carregam sem lazy (LCP); o resto com lazy */
+  var cardIndex = (typeof index !== 'undefined') ? index : -1;
+  var isLcpCard = cardIndex === 0;
+  var isEagerCard = cardIndex >= 0 && cardIndex < 4;
+  var img0Loading = isEagerCard ? 'fetchpriority="' + (isLcpCard ? 'high' : 'auto') + '" decoding="async"' : 'loading="lazy" decoding="async"';
+  var img1Loading = isEagerCard ? 'decoding="async"' : 'loading="lazy" decoding="async"';
 %>
 <div class="js-item-product js-item-slide <%= cardClasses %> item-product col-grid" data-product-id="<%= product.id %>" data-store="product-item-<%= product.id %>" data-component="product-list-item" data-component-value="<%= product.id %>">
   <div class="item item-animation item-borders product-container">
     <div class="js-product-item-image-container-private<%= img1 ? ' product-item-secondary-images-loaded' : '' %> item-image item-image-format-1">
       <div class="js-item-image-padding item-image-padding position-relative" style="padding-bottom: 100%">
         <a href="/products/<%= product.handle %>" title="<%= product.title %>" aria-label="<%= product.title %>" class="js-product-item-image-link-private">
-          <% if (img0) { %><img width="480" height="480" src="<%= img0 %>" alt="<%= product.title %>" loading="lazy" class="lazyload js-product-item-image-private product-item-image js-item-image img-absolute img-absolute-centered product-item-image-featured item-image-featured fade-in"><% } %>
-          <% if (img1) { %><img width="480" height="480" src="<%= img1 %>" alt="<%= product.title %>" loading="lazy" class="lazyload js-product-item-image-private product-item-image js-item-image img-absolute img-absolute-centered js-product-item-secondary-image-private product-item-image-secondary item-image-secondary fade-in"><% } %>
+          <% if (img0) { %><img width="480" height="480" src="<%= img0 %>" alt="<%= product.title %>" <%= img0Loading %> class="lazyload js-product-item-image-private product-item-image js-item-image img-absolute img-absolute-centered product-item-image-featured item-image-featured fade-in"><% } %>
+          <% if (img1) { %><img width="480" height="480" src="<%= img1 %>" alt="<%= product.title %>" <%= img1Loading %> class="lazyload js-product-item-image-private product-item-image js-item-image img-absolute img-absolute-centered js-product-item-secondary-image-private product-item-image-secondary item-image-secondary fade-in"><% } %>
         </a>
         <% if (discount > 0) { %>
         <div class="labels" data-store="product-item-labels">
