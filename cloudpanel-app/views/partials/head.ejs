@@ -21,10 +21,10 @@
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bree+Serif:400,700%7CSora:400,600,700&display=swap"></noscript>
 <%
   /* Preload do elemento LCP por tipo de página (sem alterar UX) */
-  var assetV = '202609162';
+  var assetV = '202609163';
   if (typeof template !== 'undefined' && template === 'index') {
-    var lcpMobile = 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1786569495068-5678524532-0cf48c2d617ddc25e49fb0be73ca92c51786569497-1024-1024.webp?3492836936039090351';
-    var lcpDesktop = 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1786569495061-3598503709-db63334818004b42c9478f28068185881786569496-1920-1920.webp?3492836936039090351';
+    var lcpMobile = '/assets/banners/slide-m1.webp';
+    var lcpDesktop = '/assets/banners/slide-d1.webp';
 %>
 <link rel="preload" as="image" href="<%= lcpMobile %>" media="(max-width: 767px)" fetchpriority="high">
 <link rel="preload" as="image" href="<%= lcpDesktop %>" media="(min-width: 768px)" fetchpriority="high">

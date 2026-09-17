@@ -8,25 +8,25 @@
     <div class="js-home-slider" id="home-slider-desktop">
       <%
         var slidesDesktop = [
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1786569495061-3598503709-db63334818004b42c9478f28068185881786569496-1920-1920.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719959-7999060274-08809a70482235c116245c19baeb78211785532724-1920-1920.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719957-7650111922-5afa45f53b43635c4f8dcc4e6d9542041785532721-1920-1920.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719958-4620468828-3a53143c9a20d68eccae7a21bf967b051785532722-1920-1920.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719959-2845137803-66eee5d17deaaa0c9e923272472517c51785532723-1920-1920.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785532719958-7118927512-9a4f182997313dea30ccc9389f5efc181785532723-1920-1920.webp?3492836936039090351'
+          '/assets/banners/slide-d1.webp',
+          '/assets/banners/slide-d2.webp',
+          '/assets/banners/slide-d3.webp',
+          '/assets/banners/slide-d4.webp',
+          '/assets/banners/slide-d5.webp',
+          '/assets/banners/slide-d6.webp'
         ];
         var slidesMobile = [
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1786569495068-5678524532-0cf48c2d617ddc25e49fb0be73ca92c51786569497-1024-1024.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441830-4560387409-2fe832f10de3d2c170ac3d2346adba181785533443-1024-1024.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441830-6915209858-5e293d5c034a5a86a1c639ef1de8595e1785533443-1024-1024.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441830-778274698-d91387129bf36bf408763b5edb20c1601785533444-1024-1024.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441831-624373058-885e660fc42dcfa4db50829962a311bb1785533444-1024-1024.webp?3492836936039090351',
-          'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/1-slide-1785533441831-5199785013-72fb0e3771508cfdf58ce638c25844ca1785533444-1024-1024.webp?3492836936039090351'
+          '/assets/banners/slide-m1.webp',
+          '/assets/banners/slide-m2.webp',
+          '/assets/banners/slide-m3.webp',
+          '/assets/banners/slide-m4.webp',
+          '/assets/banners/slide-m5.webp',
+          '/assets/banners/slide-m6.webp'
         ];
       %>
       <% slidesDesktop.forEach(function (src, i) { %>
       <a href="/collections/mais-vendidos" class="home-slide <%= i === 0 ? 'active' : '' %>">
-        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1920" height="640" <%= i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"' %>>
+        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1600" height="534" <%= i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"' %>>
       </a>
       <% }) %>
       <button type="button" class="home-slider-prev" aria-label="Anterior"><svg class="icon-inline icon-lg icon-flip-horizontal"><use xlink:href="#chevron"/></svg></button>
@@ -38,7 +38,7 @@
     <div class="js-home-slider" id="home-slider-mobile">
       <% slidesMobile.forEach(function (src, i) { %>
       <a href="/collections/mais-vendidos" class="home-slide <%= i === 0 ? 'active' : '' %>">
-        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="1024" height="711" <%= i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"' %>>
+        <img src="<%= src %>" alt="Carrossel <%= i + 1 %>" width="828" height="574" <%= i === 0 ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"' %>>
       </a>
       <% }) %>
       <button type="button" class="home-slider-prev" aria-label="Anterior"><svg class="icon-inline icon-lg icon-flip-horizontal"><use xlink:href="#chevron"/></svg></button>
@@ -92,20 +92,20 @@
       </div>
       <%
         var categories = [
-          { label: 'Mais Vendidos', href: '/collections/mais-vendidos', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-5518711630-c9d22a3b571204b8fe44da276dffd0d31765369279-480-0.webp?3492836936039090351' },
-          { label: 'Chapéus', href: '/collections/chapeu', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-2727036088-e62b4d59afbf3f3de50057a5894b97ea1765369279-480-0.webp?3492836936039090351' },
-          { label: 'Calças Femininas', href: '/collections/mulheres-roupas-calcas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-1064558897-cbc58316ad3e6318c9d651003eb393911765369280-480-0.webp?3492836936039090351' },
-          { label: 'Calças Masculinas', href: '/collections/homens-roupas-masculinas-calcas-masculinas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-986149884-cb7289482f285baa35016c5515820f451765369280-480-0.webp?3492836936039090351' },
-          { label: 'Botas Femininas', href: '/collections/mulheres-botas-femininas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-2924833401-360a757a8cafe427dd0f50645547a4431765369281-480-0.webp?3492836936039090351' },
-          { label: 'Botas Masculinas', href: '/collections/homens-botas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342114-3035399186-73c1a4a84533b0479b3cfc682191bb0e1765369281-480-0.webp?3492836936039090351' },
-          { label: 'Kits Femininos', href: '/collections/kits-monte-aqui-seu-kit-feminino3', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-8148984309-16238fca6c17b8daa417d9c7736c72ff1765369282-480-0.webp?3492836936039090351' },
-          { label: 'Kits Masculinos', href: '/collections/kits-monte-aqui-seu-kit-masculino3', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-4366298107-ca4baeee34e6708c25aaaddc3427f1971765369282-480-0.webp?3492836936039090351' },
-          { label: 'Blusas e Camisetas', href: '/collections/mulheres-roupas-blusas-e-camisetas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-7684643900-f7212ab953c102fb3f334ce1fa6629171765369283-480-0.webp?3492836936039090351' },
-          { label: 'Camisetas', href: '/collections/ofertas-blusinhas-e-camisetas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-1990457244-0921a843739be13d68f380117410997e1765369283-480-0.webp?3492836936039090351' },
-          { label: 'Camisas Femininas', href: '/collections/mulheres-roupas-camisas-femininas-manga-longa', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-2207845183-3bba6d127ca4d0d921d3accb8d512f651765369283-480-0.webp?3492836936039090351' },
-          { label: 'Camisas', href: '/collections/homens-roupas-masculinas-camisas', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-635876741-a1830f8a8b45673aa09e8359675b78431765369284-480-0.webp?3492836936039090351' },
-          { label: 'Bonés', href: '/collections/homens-bones-masculinos', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-5246181671-348a5bdee5eca9efad07a0f8f5b757c21765369284-480-0.webp?3492836936039090351' },
-          { label: 'Lançamentos', href: '/collections/mulheres-lancamento', img: 'https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1765369342115-2171085903-347e18db190e056239eecba8791275061765369285-480-0.webp?3492836936039090351' }
+          { label: 'Mais Vendidos', href: '/collections/mais-vendidos', img: '/assets/banners/cat1.webp' },
+          { label: 'Chapéus', href: '/collections/chapeu', img: '/assets/banners/cat2.webp' },
+          { label: 'Calças Femininas', href: '/collections/mulheres-roupas-calcas', img: '/assets/banners/cat3.webp' },
+          { label: 'Calças Masculinas', href: '/collections/homens-roupas-masculinas-calcas-masculinas', img: '/assets/banners/cat4.webp' },
+          { label: 'Botas Femininas', href: '/collections/mulheres-botas-femininas', img: '/assets/banners/cat5.webp' },
+          { label: 'Botas Masculinas', href: '/collections/homens-botas', img: '/assets/banners/cat6.webp' },
+          { label: 'Kits Femininos', href: '/collections/kits-monte-aqui-seu-kit-feminino3', img: '/assets/banners/cat7.webp' },
+          { label: 'Kits Masculinos', href: '/collections/kits-monte-aqui-seu-kit-masculino3', img: '/assets/banners/cat8.webp' },
+          { label: 'Blusas e Camisetas', href: '/collections/mulheres-roupas-blusas-e-camisetas', img: '/assets/banners/cat9.webp' },
+          { label: 'Camisetas', href: '/collections/ofertas-blusinhas-e-camisetas', img: '/assets/banners/cat10.webp' },
+          { label: 'Camisas Femininas', href: '/collections/mulheres-roupas-camisas-femininas-manga-longa', img: '/assets/banners/cat11.webp' },
+          { label: 'Camisas', href: '/collections/homens-roupas-masculinas-camisas', img: '/assets/banners/cat12.webp' },
+          { label: 'Bonés', href: '/collections/homens-bones-masculinos', img: '/assets/banners/cat13.webp' },
+          { label: 'Lançamentos', href: '/collections/mulheres-lancamento', img: '/assets/banners/cat14.webp' }
         ];
       %>
       <div class="container position-relative px-0 px-md-3">
@@ -115,7 +115,7 @@
             <div class="home-category text-center">
               <a href="<%= cat.href %>" class="js-home-category" aria-label="<%= cat.label %>">
                 <div class="home-category-image category-circle">
-                  <img class="textbanner-image-effect img-fluid d-block w-100" src="<%= cat.img %>" alt="<%= cat.label %>" loading="lazy" width="480" height="480">
+                  <img class="textbanner-image-effect img-fluid d-block w-100" src="<%= cat.img %>" alt="<%= cat.label %>" loading="lazy" width="320" height="320">
                 </div>
               </a>
             </div>
@@ -158,8 +158,8 @@
   <section class="section-home section-banners-home section-banners-featured position-relative" data-store="home-banner-featured">
     <div class="container">
       <a href="/collections/ofertas">
-        <img class="w-100 d-block d-md-none" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-img-1973761847-1764969717-28969986e9b5294b8573a1d7cd25b4531764969717-1920-1920.webp" alt="Banner Ofertas" loading="lazy">
-        <img class="w-100 d-none d-md-block" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-img-711308212-1764969717-75f8a7705a22c6ab2d571b53177abdeb1764969717-1920-1920.webp" alt="Banner Ofertas" loading="lazy">
+        <img class="w-100 d-block d-md-none" src="/assets/banners/banner-ofertas-m.webp" alt="Banner Ofertas" loading="lazy" width="828" height="276">
+        <img class="w-100 d-none d-md-block" src="/assets/banners/banner-ofertas-d.webp" alt="Banner Ofertas" loading="lazy" width="1200" height="188">
       </a>
     </div>
   </section>
@@ -174,8 +174,8 @@
     </div>
     <div class="container">
       <a href="/collections/tex-team" class="item-banner d-block">
-        <img class="w-100 d-block d-md-none" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-img-1372805007-1730388013-251ca4be61967bfa0857e4dba79cde331730388013-1920-1920.webp" alt="Conheça a Tex Team" loading="lazy">
-        <img class="w-100 d-none d-md-block" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-img-1894544859-1730388012-69d62dec79b6030a19eb978ba90138081730388012-1920-1920.webp" alt="Conheça a Tex Team" loading="lazy">
+        <img class="w-100 d-block d-md-none" src="/assets/banners/banner-texteam-m.webp" alt="Conheça a Tex Team" loading="lazy" width="828" height="828">
+        <img class="w-100 d-none d-md-block" src="/assets/banners/banner-texteam-d.webp" alt="Conheça a Tex Team" loading="lazy" width="1200" height="1800">
       </a>
     </div>
   </section>
@@ -190,12 +190,12 @@
       <div class="row justify-content-center">
         <div class="col-12 col-md-4 textbanner">
           <a href="/collections/kits-monte-aqui-seu-kit-feminino3" class="textbanner-link" aria-label="Kits Femininos">
-            <img class="w-100 d-block" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1762881669759-3637725911-3ad4c106055a5e0e42c139356f3a8c541762881665-640-0.webp" alt="Kits Femininos" loading="lazy">
+            <img class="w-100 d-block" src="/assets/banners/banner-kits-f.webp" alt="Kits Femininos" loading="lazy" width="640" height="320">
           </a>
         </div>
         <div class="col-12 col-md-4 textbanner">
           <a href="/collections/kits-monte-aqui-seu-kit" class="textbanner-link" aria-label="Kits Masculinos / Casal">
-            <img class="w-100 d-block" src="https://acdn-us.mitiendanube.com/stores/002/071/006/themes/flex/2-slide-1762881669759-5015826379-02f60b2f55a2a056b55c9b106e0b3a461762881665-640-0.webp" alt="Kits Casal" loading="lazy">
+            <img class="w-100 d-block" src="/assets/banners/banner-kits-m.webp" alt="Kits Casal" loading="lazy" width="640" height="320">
           </a>
         </div>
       </div>

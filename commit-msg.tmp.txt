@@ -1,0 +1,7 @@
+perf: banners do carrossel e categorias otimizados localmente (economia de ~9MB no mobile)
+
+- 12 slides do carrossel: 700KB-1.6MB cada no CDN -> 28-145KB em /assets/banners (LCP 696KB -> 40KB)
+- 14 imagens de categoria: 127-155KB (480px) -> 12-19KB (320px)
+- Banners Ofertas/Tex Team/Kits recomprimidos com dimensoes adequadas
+- width/height corrigidos para dimensoes reais (CLS=0 preservado)
+- Preload do LCP apontando para os novos arquivos locais, assetV 202609163
