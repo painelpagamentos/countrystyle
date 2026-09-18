@@ -5,39 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0">
     <meta name="theme-color" content="{{ settings.timer_bar_color }}">
 
-    {%- comment -%}
-      Tracking. A UTMify inicializa o pixel Meta 1515257673167685.
-      Substitui os dois loaders ofuscados (base64+XOR) do tema original.
-      O stub de fbq que descartava InitiateCheckout/AddPaymentInfo/Purchase foi removido.
-    {%- endcomment -%}
-    <link rel="preconnect" href="https://cdn.utmify.com.br">
-    <link rel="preconnect" href="https://connect.facebook.net">
-
-    {%- comment -%}
-      Stub de fila do Meta, padrao oficial e SEM filtro. Duas razoes para ele existir:
-      1. o tema original definia window.fbq de forma sincrona no topo do head; sem nada aqui,
-         um app que chame fbq() durante o parse estoura ReferenceError em vez de enfileirar;
-      2. o stub original trazia 3 ifs que DESCARTAVAM Purchase, InitiateCheckout e
-         AddPaymentInfo quando faltava order_id. Como a UTMify nao envia order_id, o fundo
-         de funil inteiro morria em silencio. Aqui a fila e neutra: nao filtra nada.
-      O init do pixel fica por conta da UTMify (pixel Meta 1515257673167685); nao chamamos
-      init aqui para nao duplicar PageView.
-    {%- endcomment -%}
-    <script>
-      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window,document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-    </script>
-
-    <script>window.pixelId = "6a68c53e8f4005f76c905804";</script>
-    <script src="https://cdn.utmify.com.br/scripts/pixel/pixel.js" async defer></script>
-    <script
-      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-      data-utmify-prevent-xcod-sck
-      data-utmify-prevent-subids
-      async defer></script>
-
     {%- capture seo_page_title -%}
       {%- if request.page_type == 'search' and search.terms != blank -%}
         {{ search.terms | split: ' AND ' | last | split: 'product_type:' | last }} - {{ shop.name }}

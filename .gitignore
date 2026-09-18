@@ -43,3 +43,6 @@ node_modules/
 
 # Env
 .env
+
+# Resíduo de submódulo
+.git-old/
