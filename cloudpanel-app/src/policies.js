@@ -54,7 +54,7 @@ module.exports = {
         <li>É necessário apresentar nota fiscal ou comprovante de compra.</li>
       </ul>
       <h2>2. Como solicitar</h2>
-      <p>Envie um e-mail para contato@countrystyle.com.br ou chame no WhatsApp (15) 99790-2393 com o número do pedido, fotos do produto e motivo da solicitação.</p>
+      <p>Envie um e-mail para contato@countrystyle.com.br ou chame no WhatsApp (11) 93458-8274 com o número do pedido, fotos do produto e motivo da solicitação.</p>
       <h2>3. Procedimentos</h2>
       <p>Após análise, enviaremos as instruções para postagem. O prazo para análise é de até 7 dias úteis após o recebimento do produto em nosso centro de distribuição.</p>
       <h2>4. Reembolso</h2>
@@ -105,7 +105,7 @@ module.exports = {
         <li>Produto recebido em desacordo com o pedido.</li>
       </ul>
       <h2>3. Como acionar</h2>
-      <p>Entre em contato pelo e-mail contato@countrystyle.com.br ou WhatsApp (15) 99790-2393 com fotos do produto e número do pedido.</p>
+      <p>Entre em contato pelo e-mail contato@countrystyle.com.br ou WhatsApp (11) 93458-8274 com fotos do produto e número do pedido.</p>
     `
   },
   cancelamentos: {
@@ -113,7 +113,7 @@ module.exports = {
     file: path.join(policiesDir, 'cancelamentos.html'),
     defaultContent: `
       <h2>1. Antes do envio</h2>
-      <p>O cancelamento pode ser solicitado sem custo antes da postagem do pedido, pelo WhatsApp (15) 99790-2393 ou e-mail contato@countrystyle.com.br.</p>
+      <p>O cancelamento pode ser solicitado sem custo antes da postagem do pedido, pelo WhatsApp (11) 93458-8274 ou e-mail contato@countrystyle.com.br.</p>
       <h2>2. Após o envio</h2>
       <p>Após a postagem, você pode recusar o pedido na entrega ou solicitar devolução conforme nossa política de Trocas e Devoluções.</p>
       <h2>3. Reembolso</h2>
@@ -130,7 +130,7 @@ module.exports = {
       <ul>
         <li>Pelo link recebido no e-mail/WhatsApp de confirmação de envio;</li>
         <li>No site dos Correios: <a href="https://rastreamento.correios.com.br/" target="_blank" rel="noopener">rastreamento.correios.com.br</a>;</li>
-        <li>Ou fale com o nosso atendimento pelo WhatsApp (15) 99790-2393 com o número do pedido.</li>
+        <li>Ou fale com o nosso atendimento pelo WhatsApp (11) 93458-8274 com o número do pedido.</li>
       </ul>
       <p>Os pedidos são postados em até 3 dias úteis após a confirmação do pagamento.</p>
     `
@@ -146,7 +146,7 @@ module.exports = {
       <h2>Posso parcelar?</h2>
       <p>Sim! Parcele no cartão em até 10x sem juros (parcela mínima de R$ 50,00).</p>
       <h2>Como falo com o atendimento?</h2>
-      <p>Pelo WhatsApp (15) 99790-2393, de segunda a sexta das 9h às 18h e sábado das 9h às 17h.</p>
+      <p>Pelo WhatsApp (11) 93458-8274, de segunda a sexta das 9h às 18h e sábado das 9h às 17h.</p>
       <h2>Vocês têm loja física?</h2>
       <p>Sim! Estamos na Rua Zulmira De Almeida Carvalho, Nº 20, Jd. Campestre, Pilar do Sul - SP.</p>
     `

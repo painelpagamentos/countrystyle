@@ -58,7 +58,7 @@
         <ul class="contact-info">
           <li class="contact-item">
             <svg class="icon-inline icon-1x icon-w-14 mr-1"><use xlink:href="#earphone"/></svg>
-            <a href="tel:+5515997902393" class="contact-link">WhatsApp (15) 99790-2393</a>
+            <a href="tel:+5511934588274" class="contact-link">WhatsApp (11) 93458-8274</a>
           </li>
           <li class="contact-item">
             <svg class="icon-inline icon-1x icon-w-14 mr-1"><use xlink:href="#icon-email"/></svg>
@@ -123,7 +123,8 @@
 </footer>
 <!-- Botão flutuante WhatsApp -->
 <a href="https://wa.me/+5511934588274?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20o%20meu%20pedido%20na%20Country%20Style." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Fale conosco pelo WhatsApp">
-  <svg class="icon-inline" viewBox="0 0 448 512" width="28" height="28" fill="currentColor">
+  <span class="whatsapp-float__pulse"></span>
+  <svg class="whatsapp-float__icon" viewBox="0 0 448 512" width="28" height="28" fill="currentColor">
     <path d="M380.9 97.1C339.3 55.5 283.8 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-.5-6.7C18.3 293.6 32 221.4 91.2 168.8c59.3-52.5 148.7-56.7 211.9-10 30.8 22.9 51.9 56.4 58.2 93.1 14.7 85.4-44.4 172.4-137.4 176.8zM224.1 80c106.2 0 191.9 86.5 191.9 192.6 0 5.8-.3 11.6-.9 17.3 27.5 47.7 23.5 109.4-12.6 153.3-35.1 42.5-91.4 58.9-142.6 41.6L89.5 466.8l23.4-85.8C82.1 338.4 64.3 283.4 80.1 224.8c15.7-58.5 63.8-103.7 122.7-118.9 6.9-1.8 14-2.7 21.3-2.7v-.1zm89.5 198.4c-3.8-6.7-13.7-10.7-28.4-14.9-6.7-2.1-13.9-4.6-17.1-9.5-3.2-4.9-4.2-11-5.7-16.6-1.4-5.6-2.8-7.9-5.2-8.9-5.2-2.1-15.7-1.5-26.6 4.2-10.9 5.7-19.1 13.4-23.1 16.8-3.9 3.4-6.9 3.6-9.5 2.1-5.2-2.8-8.7-5-11.4-8.2-7.3-9.2-14.3-18.3-21.4-27.5-3.5-4.6-7-9.2-10.5-13.8-3.3-4.4-6.4-9.1-9.4-13.8-2.5-4-4.8-8.3-6.8-12.7-1.9-4.1-1.1-8.6 2.1-11.9 2.7-2.8 6.4-4.4 10.5-4.4h.2c3.7 0 7.4.8 10.8 2.3 8.5 3.8 15.9 8.9 21.4 14.9 7.3 7.9 14.3 16.1 21.2 24.4 2.4 2.9 5.1 5.5 8.1 7.7 1.6 1.1 3.6 1.7 5.6 1.7 1.4 0 2.9-.3 4.2-.9 1.8-1.3 3.6-3.2 5-5.8 2.4-4.6 4.5-9.4 6.3-14.3 2.8-7.6 1.6-14.4-3.5-19.8-4.1-4.3-9.3-7.3-15.1-8.6-6.7-1.5-13.6-1.6-20.4-.3-6.2 1.2-12 3.7-17.1 7.4-12.6 9.2-19.8 22.2-20.6 37.1-.7 13.1 4.6 25.1 14.9 34.3 10.1 9 22.2 15.3 35.4 18.3 6.9 1.6 14 2.4 21.1 2.3 8.7-.1 17.2-1.8 25.3-5.1 12.3-4.9 19.6-13.9 22.4-26.8 1.5-6.8 1.1-13.3-1.9-19.5z"/>
   </svg>
   <span class="whatsapp-float__text">Fale conosco</span>
@@ -132,37 +133,61 @@
 <style>
   .whatsapp-float {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    right: 24px;
+    bottom: 24px;
     z-index: 9999;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 16px;
-    background: #25d366;
+    gap: 10px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
     color: #fff;
     border-radius: 50px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
     text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    transition: transform .2s ease, box-shadow .2s ease;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.2px;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;
   }
   .whatsapp-float:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,0,0,.3);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.6);
   }
-  .whatsapp-float svg {
+  .whatsapp-float__icon {
     flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.15));
+  }
+  .whatsapp-float__text {
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,.15);
+  }
+  .whatsapp-float__pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    background: rgba(37, 211, 102, 0.35);
+    animation: whatsapp-pulse 2s infinite;
+    z-index: -1;
+  }
+  @keyframes whatsapp-pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    70% { transform: scale(1.25); opacity: 0; }
+    100% { transform: scale(1); opacity: 0; }
   }
   @media (max-width: 767px) {
     .whatsapp-float {
-      right: 12px;
-      bottom: 12px;
-      padding: 10px 12px;
+      right: 16px;
+      bottom: 16px;
+      padding: 14px;
+      gap: 0;
     }
     .whatsapp-float__text {
       display: none;
+    }
+    .whatsapp-float__icon {
+      width: 30px;
+      height: 30px;
     }
   }
 </style>
