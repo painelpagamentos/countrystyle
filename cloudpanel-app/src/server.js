@@ -280,6 +280,21 @@ app.post('/api/checkout', async (req, res) => {
     return res.status(400).json({ success: false, error: 'Carrinho vazio' });
   }
 
+  // Recupera UTMs enviadas pelo front e monta query string para redirect
+  const ALLOWED_UTMS = new Set([
+    'utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id',
+    'fbclid','sck','subid','sub1','sub2','sub3','sub4','sub5','aff',
+    'wbraid','gbraid','ttclid','srsltid'
+  ]);
+  const utms = (req.body && req.body.utms && typeof req.body.utms === 'object') ? req.body.utms : {};
+  const utmPairs = [];
+  for (const [k, v] of Object.entries(utms)) {
+    const key = String(k).toLowerCase();
+    if (ALLOWED_UTMS.has(key) && v != null && String(v).length > 0 && String(v).length < 500) {
+      utmPairs.push(encodeURIComponent(k) + '=' + encodeURIComponent(String(v)));
+    }
+  }
+
   // Imagem de fallback (a API exige URL absoluta válida por item)
   const fallbackImage = (products[0] && products[0].images[0] && products[0].images[0].src)
     || 'https://cdn.shopify.com/s/files/1/0759/9698/7590/files/753225090_18122631268692490_8950782146721076647_n.jpg?v=1787587655';
@@ -307,6 +322,8 @@ app.post('/api/checkout', async (req, res) => {
 
   const publicBase = (cfg('PUBLIC_BASE_URL') || (req.protocol + '://' + req.get('host'))).replace(/\/$/, '');
 
+  const utmSuffix = utmPairs.length ? ((publicBase + '/obrigado').indexOf('?') > -1 ? '&' : '?') + utmPairs.join('&') : '';
+
   try {
     const response = await fetch(apiBase + '/stores/external/checkout', {
       method: 'POST',
@@ -319,11 +336,12 @@ app.post('/api/checkout', async (req, res) => {
           token: crypto.randomUUID(),
           currency: 'BRL',
           requiresShipping: true,
-          items: corvexItems
+          items: corvexItems,
+          metadata: { utms: utms }
         },
         redirect: {
-          successUrl: publicBase + '/obrigado',
-          cancelUrl: publicBase + '/cart?checkout=cancel'
+          successUrl: publicBase + '/obrigado' + utmSuffix,
+          cancelUrl: publicBase + '/cart?checkout=cancel' + (utmPairs.length ? '&' + utmPairs.join('&') : '')
         }
       })
     });

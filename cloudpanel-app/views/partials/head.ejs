@@ -56,6 +56,130 @@
 <script src="/assets/local-cart.js?v=<%= assetV %>" defer></script>
 <script src="/assets/flex.js?v=<%= assetV %>" defer></script>
 <script>
+  // =========================================================
+  // Persistência de UTMs e parâmetros de rastreamento
+  // Captura na landing, armazena no localStorage e reaplica
+  // em links internos e no redirecionamento para checkout.
+  // =========================================================
+  (function () {
+    var KEY = 'countrystyle_utms';
+    var TRACKING_PARAMS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id','fbclid','sck','subid','sub1','sub2','sub3','sub4','sub5','aff','wbraid','gbraid','ttclid','srsltid'];
+
+    function readSearch() {
+      var q = {};
+      try {
+        if (!location.search) return q;
+        var pairs = location.search.slice(1).split('&');
+        for (var i = 0; i < pairs.length; i++) {
+          var parts = pairs[i].split('=');
+          var k = decodeURIComponent(parts[0] || '');
+          var v = decodeURIComponent(parts.slice(1).join('=') || '');
+          if (k) q[k] = v;
+        }
+      } catch (e) {}
+      return q;
+    }
+
+    function loadStored() {
+      try {
+        var raw = localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+
+    function saveStored(obj) {
+      try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch (e) {}
+    }
+
+    function isTrackingParam(k) {
+      var lower = k.toLowerCase();
+      return TRACKING_PARAMS.indexOf(lower) !== -1 || /^utm_/.test(lower);
+    }
+
+    function mergeUtms() {
+      var stored = loadStored();
+      var current = readSearch();
+      var changed = false;
+      for (var k in current) {
+        if (isTrackingParam(k) && current[k]) {
+          stored[k] = current[k];
+          changed = true;
+        }
+      }
+      if (changed) saveStored(stored);
+      return stored;
+    }
+
+    function appendTo(url, utms) {
+      utms = utms || loadStored();
+      var keys = Object.keys(utms);
+      if (!keys.length) return url;
+      try {
+        var a = document.createElement('a');
+        a.href = url;
+        // Só anexa em links do mesmo domínio ou relativos
+        if (a.hostname && a.hostname !== location.hostname) return url;
+        var sep = a.search ? '&' : '?';
+        var pairs = [];
+        for (var i = 0; i < keys.length; i++) {
+          var k = keys[i];
+          // Não sobrescreve valor já presente na URL
+          if (a.search.indexOf(encodeURIComponent(k) + '=') === -1) {
+            pairs.push(encodeURIComponent(k) + '=' + encodeURIComponent(utms[k]));
+          }
+        }
+        if (pairs.length) a.search += sep + pairs.join('&');
+        return a.href;
+      } catch (e) { return url; }
+    }
+
+    function appendAll(url, utms) {
+      utms = utms || loadStored();
+      var keys = Object.keys(utms);
+      if (!keys.length) return url;
+      try {
+        var a = document.createElement('a');
+        a.href = url;
+        var sep = a.search ? '&' : '?';
+        var pairs = [];
+        for (var i = 0; i < keys.length; i++) {
+          var k = keys[i];
+          if (a.search.indexOf(encodeURIComponent(k) + '=') === -1) {
+            pairs.push(encodeURIComponent(k) + '=' + encodeURIComponent(utms[k]));
+          }
+        }
+        if (pairs.length) a.search += sep + pairs.join('&');
+        return a.href;
+      } catch (e) { return url; }
+    }
+
+    function patchLinks() {
+      try {
+        document.addEventListener('click', function (e) {
+          var el = e.target.closest('a');
+          if (!el || !el.href) return;
+          var patched = appendTo(el.href);
+          if (patched !== el.href) el.href = patched;
+        }, true);
+      } catch (e) {}
+    }
+
+    var utms = mergeUtms();
+    window.CSUtms = {
+      get: loadStored,
+      appendTo: appendTo,
+      appendAll: appendAll,
+      params: utms
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', patchLinks);
+    } else {
+      patchLinks();
+    }
+  })();
+</script>
+<script>
   // Back redirect (todas as páginas)
   const link = 'https://countrystyle.site';
   function setBackRedirect(url) {

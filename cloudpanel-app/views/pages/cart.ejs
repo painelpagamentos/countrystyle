@@ -172,11 +172,14 @@
       var originalText = btn.textContent;
       btn.textContent = 'Processando...';
 
+      // Recupera UTMs armazenadas para enviar ao checkout
+      var utms = (typeof CSUtms !== 'undefined' && CSUtms.get) ? CSUtms.get() : {};
+
       try {
         var resp = await fetch('/api/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: items })
+          body: JSON.stringify({ items: items, utms: utms })
         });
         var data = await resp.json().catch(function () { return null; });
 
@@ -184,7 +187,12 @@
           throw new Error((data && data.error) || 'Não foi possível iniciar o pagamento.');
         }
 
-        window.location.href = data.checkoutUrl;
+        // Anexa UTMs na URL final do checkout (garante que o parceiro receba)
+        var finalUrl = data.checkoutUrl;
+        if (typeof CSUtms !== 'undefined' && CSUtms.appendAll) {
+          finalUrl = CSUtms.appendAll(finalUrl, utms);
+        }
+        window.location.href = finalUrl;
       } catch (err) {
         alert('Erro ao finalizar a compra: ' + err.message + '\n\nTente novamente em instantes.');
         btn.disabled = false;
